@@ -15,6 +15,11 @@ body, html {
   text-align: center;
 }
 
+.login-logo {
+  height: 80px; /* Ajusta el tamaño según sea necesario */
+  margin-bottom: 20px;
+}
+
 .login-container h1 {
   margin-bottom: 20px;
   color: #fff;
