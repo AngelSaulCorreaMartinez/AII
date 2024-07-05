@@ -1,0 +1,41 @@
+/* src/styles/consultaAlumnos.css */
+
+.alumnos-table-container {
+  padding: 2rem;
+  background-color: #fff; /* Fondo blanco para el contenedor */
+  border-radius: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.table-heading {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.alumnos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.alumnos-table th,
+.alumnos-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.alumnos-table th {
+  background-color: #1DA1F2;
+  color: #fff;
+}
+
+.alumnos-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.alumnos-table tr:hover {
+  background-color: #e1f5fe;
+}

@@ -1,0 +1,49 @@
+/* src/styles/inicioStyles.css */
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 20vh; /* Hace que el contenido llene al menos toda la altura de la ventana */
+    padding: 2rem;
+    background-color: #fff; /* Fondo blanco */
+  }
+  
+  .logo {
+    width: 200px; /* Ajusta el tamaño del logo */
+    margin-bottom: 2rem;
+  }
+  
+  .welcome-message {
+    color: #1DA1F2; /* Azul Twitter para el mensaje de bienvenida */
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  
+  .nav-link {
+    background-color: #1DA1F2; /* Azul Twitter */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: #fff;
+    text-decoration: none;
+    margin: 10px;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .nav-link:hover {
+    background-color: #1A91DA; /* Azul más claro al pasar el ratón */
+    transition: background-color 0.3s;
+  }
+  
+  .button {
+    background: transparent; /* Los botones son transparentes para heredar el fondo del enlace */
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+  
