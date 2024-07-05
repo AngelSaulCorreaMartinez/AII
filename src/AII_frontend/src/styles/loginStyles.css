@@ -1,6 +1,7 @@
 body, html {
   height: 100%;
   margin: 0;
+  background-color: #00385d;
 }
 
 .login-container {
@@ -9,18 +10,19 @@ body, html {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #1DA1F2;
+  background-color: #00385d;
   color: #fff;
   text-align: center;
 }
 
 .login-container h1 {
   margin-bottom: 20px;
+  color: #fff;
 }
 
 .login-container button {
   background-color: #fff;
-  color: #1DA1F2;
+  color: #00385d;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;

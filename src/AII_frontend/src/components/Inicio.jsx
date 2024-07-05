@@ -1,18 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/inicioStyles.css';
-import LoginButton from './LoginButton';
-import UserInfo from './UserInfo';
+import '../styles/commonStyles.css';
 
 function Inicio() {
   return (
     <div className="main-content">
-      <div className="auth-section">
-        <LoginButton />
-      </div>
-      <UserInfo />
-      <img src="./PLANTEC.png" alt="Logo" className="logo" />
-      <div className="welcome-message">Bienvenidos a la Gestión de Alumnos</div>
+      <h1>Bienvenidos a la Gestión de Alumnos</h1>
       <Link to="/consultar" className="nav-link"><button className="button">Consultar Alumnos</button></Link>
       <Link to="/cargar" className="nav-link"><button className="button">Cargar Alumnos</button></Link>
     </div>

@@ -1,38 +1,26 @@
-/* src/styles/cargaAlumnos.css */
-
 .cargar-alumnos-container {
-    padding: 2rem;
-    background-color: #fff; /* Fondo blanco para el contenedor */
-    border-radius: 10px;
-    max-width: 600px;
-    margin: 0 auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .cargar-alumnos-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-input {
-    padding: 10px;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-  }
-  
-  .form-button {
-    background-color: #1DA1F2;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  .form-button:hover {
-    background-color: #1A91DA;
-  }
-  
+  padding: 1rem;
+  background-color: #004b72;
+  color: #fff;
+}
+
+.cargar-alumnos-form {
+  margin-top: 1rem;
+}
+
+.cargar-alumnos-form input,
+.cargar-alumnos-form button {
+  margin-bottom: 0.5rem;
+}
+
+.cargar-alumnos-form button {
+  background-color: #fff;
+  color: #00385d;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cargar-alumnos-form button:hover {
+  background-color: #f0f0f0;
+}

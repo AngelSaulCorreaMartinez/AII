@@ -1,84 +1,92 @@
-/* src/styles/commonStyles.css */
+body, html {
+  height: 100%;
+  margin: 0;
+  background-color: #004b72; /* Un color más claro */
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
 
-body {
-    background-color: #f5f5f5; /* Fondo claro para todo el cuerpo */
-    color: #333; /* Texto oscuro para mayor legibilidad */
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .nav-bar {
-    background: #1DA1F2; /* Azul Twitter */
-    padding: 1rem;
-    margin-bottom: 2rem; /* Separación entre el nav y el contenido */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .nav-link {
-    color: #fff;
-    text-decoration: none;
-    margin-right: 2rem;
-  }
-  
-  .button {
-    background-color: #1DA1F2; /* Azul Twitter */
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .button:hover {
-    background-color: #1A91DA; /* Azul más claro */
-  }
-  
-  .form-input {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    color: #333;
-  }
-  
-  .form-input::placeholder {
-    color: #aaa;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-  }
-  
-  th, td {
-    padding: 12px;
-    border: 1px solid #ccc; /* Un borde claro para los elementos de la tabla */
-  }
-  
-  th {
-    background-color: #1DA1F2; /* Azul Twitter para los encabezados */
-    color: #fff;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f9f9f9; /* Filas alternadas con un color claro */
-  }
-  
-  tr:hover {
-    background-color: #e1f5fe; /* Azul claro al pasar el ratón */
-  }
-  
-  .center-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+button {
+  background-color: #fff;
+  color: #00385d;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #f0f0f0;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #00385d;
+  padding: 10px 20px;
+  color: #fff;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.auth-button button {
+  background-color: #fff;
+  color: #00385d;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.auth-button button:hover {
+  background-color: #f0f0f0;
+}
+
+.main-content {
+  padding: 20px;
+  background-color: #004b72; /* Un color más claro para el contenido */
+  min-height: calc(100vh - 40px); /* Ajusta la altura para ocupar todo el viewport */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #fff;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.table th, .table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.table th {
+  background-color: #00385d;
+  color: #fff;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+.table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
