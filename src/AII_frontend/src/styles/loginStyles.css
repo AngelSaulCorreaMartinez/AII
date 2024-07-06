@@ -16,7 +16,7 @@ body, html {
 }
 
 .login-logo {
-  height: 80px; /* Ajusta el tamaño según sea necesario */
+  height: 30%; /* Ajusta el tamaño según sea necesario */
   margin-bottom: 20px;
 }
 

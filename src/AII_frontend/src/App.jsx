@@ -9,6 +9,7 @@ import { Connect2ICProvider, useConnect } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { defaultProviders } from '@connect2ic/core/providers';
 import './styles/commonStyles.css';
+import { UserProvider, useUser } from './UserContext'; // Importa el contexto
 
 const client = createClient({
   providers: defaultProviders,
@@ -18,15 +19,20 @@ const client = createClient({
 });
 
 function AppRoutes() {
-  const { isConnected } = useConnect();
+  const { isConnected, principal } = useConnect();
+  const { setPrincipal } = useUser(); // Obtén la función para establecer el principal
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
+    if (isConnected && principal) {
+      console.log('Principal:', principal);
+      setPrincipal(principal); // Guarda el principal directamente como string
+    }
     if (!isConnected && location.pathname !== '/') {
       navigate('/');
     }
-  }, [isConnected, navigate, location]);
+  }, [isConnected, principal, setPrincipal, navigate, location]);
 
   return (
     <>
@@ -43,11 +49,13 @@ function AppRoutes() {
 
 function App() {
   return (
-    <Connect2ICProvider client={client}>
-      <Router>
-        <AppRoutes />
-      </Router>
-    </Connect2ICProvider>
+    <UserProvider>
+      <Connect2ICProvider client={client}>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </Connect2ICProvider>
+    </UserProvider>
   );
 }
 
