@@ -1,49 +1,54 @@
 /* src/styles/inicioStyles.css */
 
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #004b72; /* Fondo oscuro para toda la página */
+}
+
 .main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 20vh; /* Hace que el contenido llene al menos toda la altura de la ventana */
-    padding: 2rem;
-    background-color: #fff; /* Fondo blanco */
-  }
-  
-  .logo {
-    width: 200px; /* Ajusta el tamaño del logo */
-    margin-bottom: 2rem;
-  }
-  
-  .welcome-message {
-    color: #1DA1F2; /* Azul Twitter para el mensaje de bienvenida */
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-  }
-  
-  .nav-link {
-    background-color: #1DA1F2; /* Azul Twitter */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    color: #fff;
-    text-decoration: none;
-    margin: 10px;
-    display: inline-block;
-    cursor: pointer;
-  }
-  
-  .nav-link:hover {
-    background-color: #1A91DA; /* Azul más claro al pasar el ratón */
-    transition: background-color 0.3s;
-  }
-  
-  .button {
-    background: transparent; /* Los botones son transparentes para heredar el fondo del enlace */
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ajusta la altura mínima para ocupar toda la pantalla */
+  padding: 2rem;
+  background-color: #004b72; /* Fondo oscuro para el contenido */
+}
+
+h1 {
+  color: #ffffff; /* Color blanco para el título */
+  font-size: 2.5rem; /* Tamaño de fuente más grande para el título */
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.principal-text {
+  color: #ffffff; /* Color blanco para el texto del principal */
+  font-size: 1.2rem; /* Tamaño de fuente más grande para el texto del principal */
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Espaciado entre los botones */
+}
+
+.nav-link .button {
+  background-color: #1DA1F2; /* Azul Twitter para los botones */
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.nav-link .button:hover {
+  background-color: #1A91DA; /* Azul más claro al pasar el ratón */
+  transition: background-color 0.3s;
+}

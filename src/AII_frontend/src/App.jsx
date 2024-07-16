@@ -4,12 +4,14 @@ import ConsultaAlumnos from './components/ConsultaAlumnos';
 import CargaAlumnos from './components/CargaAlumnos';
 import Inicio from './components/Inicio';
 import Login from './components/Login';
+import Inscripcion from './components/Inscripcion';  // Asegúrate de importar Inscripcion
 import NavBar from './components/NavBar';
 import { Connect2ICProvider, useConnect } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { defaultProviders } from '@connect2ic/core/providers';
 import './styles/commonStyles.css';
 import { UserProvider, useUser } from './UserContext'; // Importa el contexto
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const client = createClient({
   providers: defaultProviders,
@@ -42,6 +44,8 @@ function AppRoutes() {
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/consultar" element={<ConsultaAlumnos />} />
         <Route path="/cargar" element={<CargaAlumnos />} />
+        <Route path="/inscripcion/nuevo" element={<Inscripcion mode="nuevo" />} />
+        <Route path="/inscripcion/validar" element={<Inscripcion mode="validar" />} />
       </Routes>
     </>
   );

@@ -20,7 +20,9 @@
     "@connect2ic/react": "^0.2.0-beta.24",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
+    "bootstrap": "^5.3.3",
     "buffer": "^6.0.3",
+    "react-bootstrap": "^2.10.4",
     "react-router-dom": "^6.24.1"
   }
 }

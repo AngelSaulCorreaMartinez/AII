@@ -1,41 +1,46 @@
-.nav-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #00385d;
-  padding: 10px 20px;
-  color: #fff;
-}
-
-.nav-left {
-  display: flex;
-  align-items: center;
-}
-
 .nav-logo {
-  height: 40px; /* Ajusta el tamaño según sea necesario */
-  margin-right: 20px;
+  max-height: 40px;
+  margin-right: 10px;
 }
 
-.nav-links {
+.navbar-nav .dropdown-menu-right {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.submenu-right .dropdown-menu {
+  left: 100% !important;
+  top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.submenu-right .dropdown-toggle {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.nav-link {
+.submenu-right .dropdown-toggle::after {
+  content: none; /* Elimina el icono de flecha */
+}
+
+.inscripcion-dropdown {
+  color: #000 !important; /* Asegura que el texto sea negro */
+}
+
+.submenu-right .dropdown-menu a {
+  white-space: nowrap;
+  display: block;
+  padding: 0.5rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  background-color: transparent;
+  border: 0;
+}
+
+.submenu-right .dropdown-menu a:hover {
   color: #fff;
-  text-decoration: none;
-}
-
-.auth-button button {
-  background-color: #fff;
-  color: #00385d;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.auth-button button:hover {
-  background-color: #f0f0f0;
+  background-color: #007bff;
 }
