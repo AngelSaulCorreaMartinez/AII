@@ -1,36 +1,44 @@
 module {
-    public type Uid = Text; //Usuario id
-    public type Aid = Text; //Artista id
-    public type Pid = Text; //Proyecto id
+    public type Uid = Text; // Usuario id
+    public type Aid = Text; // Alumno id
+    public type Pid = Text; // Proyecto id
+
+    public type Rol = {
+        #Admin;
+        #Alumno;
+        #Profesor;
+        #Usuario;
+    };
 
     public type Usuario = {
-        principal : Principal;
-        uid : Text;
-        nick : Text;
-        email : Text;
-        foto : ?Blob;
-        proyectosVotados : [Pid];
+        principal: Principal;
+        uid: Text;
+        nick: Text;
+        email: Text;
+        foto: ?Blob;
+        proyectosVotados: [Pid];
+        rol: Rol;
     };
 
-    public type RegistroArtistaForm = {
-        pseudonimo : Text;
-        nombreDePila : Text;
-        redesSociales : [Text];
-        emailArtistico : Text;
-        fotoArtistica : ?Blob;
+    public type RegistroAlumnoForm = {
+        nombre: Text;
+        apellidos: Text;
+        emailInstitucional: Text;
+        matricula: Text;
+        carrera: Text;
+        semestre: Nat;
     };
 
-    public type Artista = {
-        principal : Principal;
-        aid : Text;
-        pseudonimo : Text;
-        nombreDePila : Text;
-        redesSociales : [Text];
-        emailArtistico : Text;
-        fotoArtistica : ?Blob;
-        propinasRecibidas : Nat;
-        seguidores : Nat;
-        proyectos : [Pid]
+    public type Alumno = {
+        principal: Principal;
+        aid: Text;
+        nombre: Text;
+        apellidos: Text;
+        emailInstitucional: Text;
+        matricula: Text;
+        carrera: Text;
+        semestre: Nat;
+        proyectos: [Pid];
     };
 
     public type Item = {
@@ -69,8 +77,7 @@ module {
         plasoEstimadoEnMeses: Nat;
         fechaAprobacion: Int;
         fondosObtenidos: Nat;
-        votos : Nat;
+        votos: Nat;
         estado: Estado;
-    }
-
+    };
 };

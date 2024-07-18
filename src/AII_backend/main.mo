@@ -4,7 +4,6 @@ import Iter "mo:base/Iter";
 import Map "mo:map/Map";
 import { thash; phash } "mo:map/Map";
 import Time "mo:base/Time";
-//import Array "mo:base/Array";
 import Buffer "mo:base/Buffer";
 import Text "mo:base/Text";
 import Set "mo:map/Set";
@@ -16,12 +15,12 @@ shared ({ caller }) actor class _Plataforma() {
     stable let deployer = caller;
 
     public type Usuario = Types.Usuario;
-    public type Artista = Types.Artista;
-    public type Uid = Types.Uid; //Usuario id
-    public type Aid = Types.Aid; //Artista id
-    public type Pid = Types.Pid; //Proyecto id
+    public type Alumno = Types.Alumno;
+    public type Uid = Types.Uid; // Usuario id
+    public type Aid = Types.Aid; // Alumno id
+    public type Pid = Types.Pid; // Proyecto id
 
-    public type RegistroArtistaForm = Types.RegistroArtistaForm;
+    public type RegistroAlumnoForm = Types.RegistroAlumnoForm;
     public type FinanciamientoForm = Types.FinanciamientoForm;
     public type Proyecto = Types.Proyecto;
 
@@ -45,14 +44,10 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     stable let usuarios = Map.new<Principal, Usuario>();
-    stable let artistas = Map.new<Principal, Artista>();
+    stable let alumnos = Map.new<Principal, Alumno>();
     stable let admins = Set.new<Principal>();
 
-    // for (i in _admins.vals()) {
-    //     ignore Set.put<Principal>(admins, Map.phash, i);
-    // };
-
-    stable let artistasIngresantes = Map.new<Principal, RegistroArtistaForm>();
+    stable let alumnosIngresantes = Map.new<Principal, RegistroAlumnoForm>();
     stable let proyectosIngresantes = Map.new<Principal, FinanciamientoForm>();
 
     stable let proyectosAprobados = Map.new<Pid, Proyecto>();
@@ -64,16 +59,8 @@ shared ({ caller }) actor class _Plataforma() {
         };
     };
 
-    // ------------- Funciones genericas -------------------------------------
-
-    func enArray<T>(a : [T], e : T, equal : (T, T) -> Bool) : Bool {
-        for (i in a.vals()) { if (equal(i, e)) { return true } };
-        return false;
-    };
-    //----------------------------------------------------------------------------
-
-    func esArtista(p : Principal) : Bool {
-        return switch (Map.get<Principal, Artista>(artistas, Map.phash, p)) {
+    func esAlumno(p : Principal) : Bool {
+        return switch (Map.get<Principal, Alumno>(alumnos, Map.phash, p)) {
             case null { false };
             case _ { true };
         };
@@ -105,50 +92,50 @@ shared ({ caller }) actor class _Plataforma() {
             email;
             foto;
             proyectosVotados = [];
+            rol = #Usuario;
         };
         ignore Map.put<Principal, Usuario>(usuarios, Map.phash, caller, nuevoUsuario);
         "U" # Nat.toText(actualUid);
     };
 
-    public shared ({ caller }) func registrarseComoArtista(_init : RegistroArtistaForm) : async Text {
+    public shared ({ caller }) func registrarseComoAlumno(_init : RegistroAlumnoForm) : async Text {
         assert (not Principal.isAnonymous(caller));
         let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, caller);
         switch usuario {
             case null { return "Debe registrarse como usuario previamente" };
             case (?usuario) {
-                if (Map.has<Principal, RegistroArtistaForm>(artistasIngresantes, Map.phash, caller)) {
-                    return "Usetd ya tiene pendiente de aprobación una solicitud de registro como artista";
+                if (Map.has<Principal, RegistroAlumnoForm>(alumnosIngresantes, Map.phash, caller)) {
+                    return "Usted ya tiene pendiente de aprobación una solicitud de registro como alumno";
                 };
-                ignore Map.put<Principal, RegistroArtistaForm>(artistasIngresantes, Map.phash, caller, _init);
-                return "Solicitud de registro como artista ingresada exitosamente";
+                ignore Map.put<Principal, RegistroAlumnoForm>(alumnosIngresantes, Map.phash, caller, _init);
+                return "Solicitud de registro como alumno ingresada exitosamente";
             };
         };
     };
 
-    public shared query ({ caller }) func verArtistasIngresantes() : async [(Principal, RegistroArtistaForm)] {
+    public shared query ({ caller }) func verAlumnosIngresantes() : async [(Principal, RegistroAlumnoForm)] {
         assert (esAdmin(caller));
-        Iter.toArray(Map.entries<Principal, RegistroArtistaForm>(artistasIngresantes));
+        Iter.toArray(Map.entries<Principal, RegistroAlumnoForm>(alumnosIngresantes));
     };
 
-    public shared ({ caller }) func aprobarRegistroDeArtista(solicitante : Principal) : async Aid {
+    public shared ({ caller }) func aprobarRegistroDeAlumno(solicitante : Principal) : async Aid {
         assert (esAdmin(caller));
         let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, solicitante);
         switch usuario {
             case null { assert false; "" };
             case (?usuario) {
-                let solicitud = Map.remove<Principal, RegistroArtistaForm>(artistasIngresantes, Map.phash, solicitante);
+                let solicitud = Map.remove<Principal, RegistroAlumnoForm>(alumnosIngresantes, Map.phash, solicitante);
                 switch (solicitud) {
                     case null { assert false; "" };
                     case (?solicitud) {
-                        let nuevoArtista : Artista = {
+                        let nuevoAlumno : Alumno = {
                             solicitud with
                             principal = solicitante;
                             aid = generarAid();
-                            propinasRecibidas = 0;
-                            seguidores = 0;
                             proyectos = [];
                         };
-                        ignore Map.put<Principal, Artista>(artistas, Map.phash, solicitante, nuevoArtista);
+                        ignore Map.put<Principal, Alumno>(alumnos, Map.phash, solicitante, nuevoAlumno);
+                        ignore Map.put<Principal, Usuario>(usuarios, Map.phash, solicitante, {usuario with rol = #Alumno});
                         "A" # Nat.toText(actualAid);
                     };
                 };
@@ -156,35 +143,33 @@ shared ({ caller }) actor class _Plataforma() {
         };
     };
 
-    //-------------------- Funcion para armar galeria de artistas en el front ----------------------------
-
-    public query func verArtistas() : async [Artista] {
-        Iter.toArray(Map.vals<Principal, Artista>(artistas));
+    public query func verAlumnos() : async [Alumno] {
+        Iter.toArray(Map.vals<Principal, Alumno>(alumnos));
     };
 
-    //------------------- Solicitud de financiamiento de produccion musical  -----------------------------
+    func enArray<T>(a : [T], e : T, equal : (T, T) -> Bool) : Bool {
+        for (i in a.vals()) { if (equal(i, e)) { return true } };
+        return false;
+    };
 
     public shared ({ caller }) func solicitudDeFinanciamiento(_init : FinanciamientoForm) : async Text {
-        assert (esArtista(caller));
+        assert (esAlumno(caller));
         switch (Map.get<Principal, FinanciamientoForm>(proyectosIngresantes, phash, caller)) {
             case (?solicitudPrevia) {
                 return "Usted tiene pendiente una solicitud para el proyecto " # solicitudPrevia.nombreProyecto;
             };
             case null {
                 ignore Map.put<Principal, FinanciamientoForm>(proyectosIngresantes, phash, caller, _init);
-                return "Su solicitud fue ingresada con éxito. En los proximos dias será contactado via email";
+                return "Su solicitud fue ingresada con éxito. En los próximos días será contactado via email";
             };
         };
     };
-
-    //----------------- Ver solicitudes de financiamiento ---------------------------------------------------
 
     public shared query ({ caller }) func verSolicitudesFinanciamiento() : async [(Principal, FinanciamientoForm)] {
         assert (esAdmin(caller));
         let iterEntries = Map.entries<Principal, FinanciamientoForm>(proyectosIngresantes);
         Iter.toArray<(Principal, FinanciamientoForm)>(iterEntries);
     };
-    //----------------- Aprobación y rechazo de financiamiento de produccion musical ----------------------------------
 
     public shared ({ caller }) func aprobarFinanciamiento(p : Principal) : async Pid {
         assert (esAdmin(caller));
@@ -192,10 +177,10 @@ shared ({ caller }) actor class _Plataforma() {
         switch (solicitud) {
             case null { assert false; "" };
             case (?solicitud) {
-                let artista = Map.get<Principal, Artista>(artistas, phash, p);
-                switch artista {
+                let alumno = Map.get<Principal, Alumno>(alumnos, phash, p);
+                switch alumno {
                     case null { assert false; "" };
-                    case (?artista) {
+                    case (?alumno) {
                         let proyecto : Proyecto = {
                             solicitud with
                             fechaAprobacion = Time.now();
@@ -205,10 +190,10 @@ shared ({ caller }) actor class _Plataforma() {
                         };
                         let id = generarPid();
                         ignore Map.put<Pid, Proyecto>(proyectosAprobados, thash, id, proyecto);
-                        let setProyectos = Set.fromIter<Pid>(artista.proyectos.vals(), thash);
+                        let setProyectos = Set.fromIter<Pid>(alumno.proyectos.vals(), thash);
                         ignore Set.put<Pid>(setProyectos, thash, id);
                         let proyectos = Set.toArray<Pid>(setProyectos);
-                        ignore Map.put<Principal, Artista>(artistas, phash, p, { artista with proyectos });
+                        ignore Map.put<Principal, Alumno>(alumnos, phash, p, { alumno with proyectos });
                         id;
                     };
                 };
@@ -221,18 +206,16 @@ shared ({ caller }) actor class _Plataforma() {
         ignore Map.remove<Principal, FinanciamientoForm>(proyectosIngresantes, phash, p);
     };
 
-    //------------------------------------ Funciones publicas ------------------------------------------------
-
     public query func verProyectos() : async [(Pid, Proyecto)] {
         Iter.toArray<(Pid, Proyecto)>(Map.entries<Pid, Proyecto>(proyectosAprobados));
     };
 
-    public query func verProyectosDe(artistaP : Principal) : async [Proyecto] {
-        switch (Map.get<Principal, Artista>(artistas, phash, artistaP)) {
+    public query func verProyectosDe(alumnoP : Principal) : async [Proyecto] {
+        switch (Map.get<Principal, Alumno>(alumnos, phash, alumnoP)) {
             case null { return [] };
-            case (?artista) {
+            case (?alumno) {
                 let proyectosDe = Buffer.fromArray<Proyecto>([]);
-                for (pId in artista.proyectos.vals()) {
+                for (pId in alumno.proyectos.vals()) {
                     switch (Map.get<Pid, Proyecto>(proyectosAprobados, thash, pId)) {
                         case (?pr) {
                             proyectosDe.add(pr);
@@ -249,8 +232,6 @@ shared ({ caller }) actor class _Plataforma() {
         Map.get<Pid, Proyecto>(proyectosAprobados, thash, id);
     };
 
-    //------------------------------    Votar proyectos  --------------------------------
-
     public shared ({ caller }) func votarProyecto(id : Pid) : async () {
         let usuario = Map.get<Principal, Usuario>(usuarios, phash, caller);
         switch usuario {
@@ -266,7 +247,7 @@ shared ({ caller }) actor class _Plataforma() {
                                 votos = proyecto.votos + 1;
                             };
                             ignore Map.put<Pid, Proyecto>(proyectosAprobados, thash, id, proyectoActualizado);
-                            //TODO agregar Pid a lista de proyectos votados del usuario
+                            // TODO agregar Pid a lista de proyectos votados del usuario
                         };
                     };
                 };
@@ -275,13 +256,10 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     public shared ({ caller }) func comprarTokens() : async () {
-        //TODO
+        // TODO
     };
 
-
-    //-------------------- Info Plataforma -----------------------------
-
-    public query func verNombreProyecto(): async Text{
+    public query func verNombreProyecto(): async Text {
         "Donate to artists ICP\n" #
         "Hackathon On line ICP Hub México ";
     };
@@ -294,17 +272,12 @@ shared ({ caller }) actor class _Plataforma() {
         Manifiesto.manifiesto;
     };
 
-    // public query func registeredUsers(): async Nat{
-    //     map
-    // };
-
-    public query func statusPlatform(): async [{key: Text; value: Text}]{
+    public query func statusPlatform(): async [{key: Text; value: Text}] {
         [
             {key = "Users"; value = Nat.toText(Map.size(usuarios))},
-            {key = "Artist"; value = Nat.toText(Map.size(artistas))},
-            {key = "Projects"; value = Nat.toText(Map.size(proyectosAprobados))} 
+            {key = "Alumnos"; value = Nat.toText(Map.size(alumnos))},
+            {key = "Projects"; value = Nat.toText(Map.size(proyectosAprobados))}
         ]
     };
-
 
 };
