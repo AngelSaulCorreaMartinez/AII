@@ -15,6 +15,7 @@ module {
         uid: Text;
         nick: Text;
         email: Text;
+        foto: ?Blob;
         proyectosVotados: [Pid];
         rol: Rol;
     };
