@@ -7,6 +7,7 @@ import Time "mo:base/Time";
 import Buffer "mo:base/Buffer";
 import Text "mo:base/Text";
 import Set "mo:map/Set";
+import Debug "mo:base/Debug"; // Import Debug for logging
 import Types "./types";
 import Manifiesto "manifiesto";
 
@@ -67,11 +68,14 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     func esAdmin(p : Principal) : Bool {
-        Set.has<Principal>(admins, Map.phash, p);
+        Debug.print("Checking if principal is admin: " # Principal.toText(p));
+        let result = Set.has<Principal>(admins, Map.phash, p);
+        Debug.print("Is admin: " # (if result { "true" } else { "false" }));
+        result;
     };
 
     public shared ({ caller }) func agregarAdmin(p : Principal) : async Bool {
-        assert (esAdmin(caller) and esUsuario(p));
+        assert esAdmin(caller) and esUsuario(p);
         ignore Set.put<Principal>(admins, Map.phash, p);
         true;
     };
@@ -83,8 +87,16 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     public shared ({ caller }) func registrarse(nick : Text, email : Text) : async Uid {
-        assert (not Principal.isAnonymous(caller));
-        assert (not esUsuario(caller));
+        Debug.print("Registering user: " # Principal.toText(caller));
+        Debug.print("Nickname: " # nick # ", Email: " # email);
+        if (Principal.isAnonymous(caller)) {
+            Debug.print("Caller cannot be anonymous");
+            assert false;
+        };
+        if (esUsuario(caller)) {
+            Debug.print("Caller is already registered as a user");
+            assert false;
+        };
         let nuevoUsuario : Usuario = {
             principal = caller;
             uid = generarUid();
@@ -98,10 +110,10 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     public shared ({ caller }) func registrarseComoAlumno(_init : RegistroAlumnoForm) : async Text {
-        assert (not Principal.isAnonymous(caller));
+        assert not Principal.isAnonymous(caller);
         let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, caller);
         switch usuario {
-            case null { return "Debe registrarse como usuario previamente" };
+            case null { return "Debe registrarse como usuario previamente"; };
             case (?usuario) {
                 if (Map.has<Principal, RegistroAlumnoForm>(alumnosIngresantes, Map.phash, caller)) {
                     return "Usted ya tiene pendiente de aprobación una solicitud de registro como alumno";
@@ -113,19 +125,20 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     public shared query ({ caller }) func verAlumnosIngresantes() : async [(Principal, RegistroAlumnoForm)] {
-        assert (esAdmin(caller));
+        assert esAdmin(caller);
         Iter.toArray(Map.entries<Principal, RegistroAlumnoForm>(alumnosIngresantes));
     };
 
-    public shared ({ caller }) func aprobarRegistroDeAlumno(solicitante : Principal) : async Aid {
-        assert (esAdmin(caller));
+    public shared ({ caller }) func aprobarRegistroDeAlumno(solicitante : Principal) : async Text {
+        Debug.print("Approving student registration for: " # Principal.toText(solicitante));
+        assert esAdmin(caller);
         let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, solicitante);
         switch usuario {
-            case null { assert false; "" };
+            case null { return "El usuario no está registrado"; };
             case (?usuario) {
                 let solicitud = Map.remove<Principal, RegistroAlumnoForm>(alumnosIngresantes, Map.phash, solicitante);
                 switch (solicitud) {
-                    case null { assert false; "" };
+                    case null { return "No hay solicitud de registro de alumno para este usuario"; };
                     case (?solicitud) {
                         let nuevoAlumno : Alumno = {
                             solicitud with
@@ -135,7 +148,7 @@ shared ({ caller }) actor class _Plataforma() {
                         };
                         ignore Map.put<Principal, Alumno>(alumnos, Map.phash, solicitante, nuevoAlumno);
                         ignore Map.put<Principal, Usuario>(usuarios, Map.phash, solicitante, {usuario with rol = #Alumno});
-                        "A" # Nat.toText(actualAid);
+                        return "A" # Nat.toText(actualAid);
                     };
                 };
             };
@@ -152,7 +165,7 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     public shared ({ caller }) func solicitudDeFinanciamiento(_init : FinanciamientoForm) : async Text {
-        assert (esAlumno(caller));
+        assert esAlumno(caller);
         switch (Map.get<Principal, FinanciamientoForm>(proyectosIngresantes, phash, caller)) {
             case (?solicitudPrevia) {
                 return "Usted tiene pendiente una solicitud para el proyecto " # solicitudPrevia.nombreProyecto;
@@ -165,13 +178,13 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     public shared query ({ caller }) func verSolicitudesFinanciamiento() : async [(Principal, FinanciamientoForm)] {
-        assert (esAdmin(caller));
+        assert esAdmin(caller);
         let iterEntries = Map.entries<Principal, FinanciamientoForm>(proyectosIngresantes);
         Iter.toArray<(Principal, FinanciamientoForm)>(iterEntries);
     };
 
     public shared ({ caller }) func aprobarFinanciamiento(p : Principal) : async Pid {
-        assert (esAdmin(caller));
+        assert esAdmin(caller);
         let solicitud = Map.remove<Principal, FinanciamientoForm>(proyectosIngresantes, phash, p);
         switch (solicitud) {
             case null { assert false; "" };
@@ -201,7 +214,7 @@ shared ({ caller }) actor class _Plataforma() {
     };
 
     public shared ({ caller }) func rechazarFinanciamiento(p : Principal) : async () {
-        assert (esAdmin(caller));
+        assert esAdmin(caller);
         ignore Map.remove<Principal, FinanciamientoForm>(proyectosIngresantes, phash, p);
     };
 
