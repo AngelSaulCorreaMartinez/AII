@@ -47,6 +47,7 @@ shared ({ caller }) actor class _Plataforma() {
     stable let usuarios = Map.new<Principal, Usuario>();
     stable let alumnos = Map.new<Principal, Alumno>();
     stable let admins = Set.new<Principal>();
+    ignore Set.put<Principal>(admins,phash,deployer);
 
     stable let alumnosIngresantes = Map.new<Principal, RegistroAlumnoForm>();
     stable let proyectosIngresantes = Map.new<Principal, FinanciamientoForm>();
@@ -86,22 +87,23 @@ shared ({ caller }) actor class _Plataforma() {
         true;
     };
 
-    public shared ({ caller }) func registrarse(nick : Text, email : Text) : async Uid {
+    public shared ({ caller }) func registrarse(nick : Text, email : Text) : async Text {
         Debug.print("Registering user: " # Principal.toText(caller));
         Debug.print("Nickname: " # nick # ", Email: " # email);
         if (Principal.isAnonymous(caller)) {
             Debug.print("Caller cannot be anonymous");
-            assert false;
+            return "Error: Caller cannot be anonymous";
         };
         if (esUsuario(caller)) {
             Debug.print("Caller is already registered as a user");
-            assert false;
+            return "Error: Caller is already registered as a user";
         };
         let nuevoUsuario : Usuario = {
             principal = caller;
             uid = generarUid();
             nick;
             email;
+            foto = null;
             proyectosVotados = [];
             rol = #Usuario;
         };
