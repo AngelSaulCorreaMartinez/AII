@@ -82,7 +82,7 @@ shared ({ caller }) actor class _Plataforma() {
         true;
     };
 
-    public shared ({ caller }) func registrarse(nick : Text, email : Text, foto : ?Blob) : async Uid {
+    public shared ({ caller }) func registrarse(nick : Text, email : Text) : async Uid {
         assert (not Principal.isAnonymous(caller));
         assert (not esUsuario(caller));
         let nuevoUsuario : Usuario = {
@@ -90,7 +90,6 @@ shared ({ caller }) actor class _Plataforma() {
             uid = generarUid();
             nick;
             email;
-            foto;
             proyectosVotados = [];
             rol = #Usuario;
         };
