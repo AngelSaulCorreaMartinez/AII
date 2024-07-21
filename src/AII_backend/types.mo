@@ -8,6 +8,7 @@ module {
         #Alumno;
         #Profesor;
         #Usuario;
+        #Administrativo;
     };
 
     public type Usuario = {
@@ -18,6 +19,25 @@ module {
         foto: ?Blob;
         proyectosVotados: [Pid];
         rol: Rol;
+    };
+
+    public type Direccion = {
+        calle: Text;
+        numero: Text;
+        colonia: Text;
+        ciudad: Text;
+        estado: Text;
+        codigoPostal: Text;
+    };
+
+    public type Telefono = {
+        tipo: Text;
+        numero: Text;
+    };
+
+    public type DetalleMedico = {
+        alergias: [Text];
+        medicamentos: [Text];
     };
 
     public type RegistroAlumnoForm = {
@@ -80,6 +100,46 @@ module {
         semestre: Nat;
         proyectos: [Pid];
     };
+
+    public type Administrativo = {
+        principalID: Principal;
+        nombre: Text;
+        apellidoPaterno: Text;
+        apellidoMaterno: Text;
+        tipoSanguineo: Text;
+        fechaNacimiento: Text;
+        curp: Text;
+        genero: Text;
+        lugarNacimiento: Text;
+        estadoCivil: Text;
+        emailPersonal: Text;
+        direcciones: [Text];
+        telefonos: [Text];
+        detallesMedicos: Text;
+        numeroSeguroSocial: Text;
+        cedulaProfesional: Text;
+    };
+
+
+    public type Docente = {
+        principalID: Principal;
+        nombre: Text;
+        apellidoPaterno: Text;
+        apellidoMaterno: Text;
+        tipoSanguineo: Text;
+        fechaNacimiento: Text;
+        curp: Text;
+        genero: Text;
+        lugarNacimiento: Text;
+        estadoCivil: Text;
+        emailPersonal: Text;
+        direcciones: [Text];
+        telefonos: [Text];
+        detallesMedicos: Text;
+        numeroSeguroSocial: Text;
+        cedulaProfesional: Text;
+    };
+
 
     public type Item = {
         item: Text;

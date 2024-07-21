@@ -17,6 +17,8 @@ shared ({ caller }) actor class _Plataforma() {
 
     public type Usuario = Types.Usuario;
     public type Alumno = Types.Alumno;
+    public type Administrativo = Types.Administrativo;
+    public type Docente = Types.Docente;
     public type Uid = Types.Uid; // Usuario id
     public type Aid = Types.Aid; // Alumno id
     public type Pid = Types.Pid; // Proyecto id
@@ -47,7 +49,12 @@ shared ({ caller }) actor class _Plataforma() {
     stable let usuarios = Map.new<Principal, Usuario>();
     stable let alumnos = Map.new<Principal, Alumno>();
     stable let admins = Set.new<Principal>();
+
+    stable let administrativos = Map.new<Principal, Administrativo>();
+    stable let docentes = Map.new<Principal, Docente>();
+    ignore Set.put<Principal>(admins, phash, deployer);
     ignore Set.put<Principal>(admins,phash,deployer);
+
 
     stable let alumnosIngresantes = Map.new<Principal, RegistroAlumnoForm>();
     stable let proyectosIngresantes = Map.new<Principal, FinanciamientoForm>();
@@ -73,6 +80,22 @@ shared ({ caller }) actor class _Plataforma() {
         let result = Set.has<Principal>(admins, Map.phash, p);
         Debug.print("Is admin: " # (if result { "true" } else { "false" }));
         result;
+
+    };
+
+    func esAdministrativo(p : Principal) : Bool {
+        return switch (Map.get<Principal, Administrativo>(administrativos, Map.phash, p)) {
+            case null { false };
+            case _ { true };
+        };
+    };
+
+    func esDocente(p : Principal) : Bool {
+        return switch (Map.get<Principal, Docente>(docentes, Map.phash, p)) {
+            case null { false };
+            case _ { true };
+        };
+
     };
 
     public shared ({ caller }) func agregarAdmin(p : Principal) : async Bool {
@@ -126,6 +149,40 @@ shared ({ caller }) actor class _Plataforma() {
         };
     };
 
+    public shared ({ caller }) func registrarseComoAdministrativo(_init : Administrativo) : async Text {
+        assert not Principal.isAnonymous(caller);
+        let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, caller);
+        switch usuario {
+            case null { return "Debe registrarse como usuario previamente"; };
+            case (?usuario) {
+                if (Map.has<Principal, Administrativo>(administrativos, Map.phash, caller)) {
+                    return "Usted ya está registrado como administrativo";
+                };
+                ignore Map.put<Principal, Administrativo>(administrativos, Map.phash, caller, { _init with principalID = caller });
+                ignore Map.put<Principal, Usuario>(usuarios, Map.phash, caller, {usuario with rol = #Administrativo});
+                return "Registro como administrativo ingresado exitosamente";
+            };
+        };
+    };
+
+
+    public shared ({ caller }) func registrarseComoDocente(_init : Docente) : async Text {
+        assert not Principal.isAnonymous(caller);
+        let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, caller);
+        switch usuario {
+            case null { return "Debe registrarse como usuario previamente"; };
+            case (?usuario) {
+                if (Map.has<Principal, Docente>(docentes, Map.phash, caller)) {
+                    return "Usted ya está registrado como docente";
+                };
+                ignore Map.put<Principal, Docente>(docentes, Map.phash, caller, { _init with principalID = caller });
+                ignore Map.put<Principal, Usuario>(usuarios, Map.phash, caller, {usuario with rol = #Profesor});
+                return "Registro como docente ingresado exitosamente";
+            };
+        };
+    };
+
+
     public shared query ({ caller }) func verAlumnosIngresantes() : async [(Principal, RegistroAlumnoForm)] {
         assert esAdmin(caller);
         Iter.toArray(Map.entries<Principal, RegistroAlumnoForm>(alumnosIngresantes));
@@ -159,6 +216,16 @@ shared ({ caller }) actor class _Plataforma() {
 
     public query func verAlumnos() : async [Alumno] {
         Iter.toArray(Map.vals<Principal, Alumno>(alumnos));
+    };
+
+    public shared query ({ caller }) func verAdministrativos() : async [Administrativo] {
+        assert esAdmin(caller);
+        Iter.toArray(Map.vals<Principal, Administrativo>(administrativos));
+    };
+
+    public shared query ({ caller }) func verDocentes() : async [Docente] {
+        assert esAdmin(caller);
+        Iter.toArray(Map.vals<Principal, Docente>(docentes));
     };
 
     func enArray<T>(a : [T], e : T, equal : (T, T) -> Bool) : Bool {
