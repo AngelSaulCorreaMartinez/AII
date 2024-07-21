@@ -37,3 +37,22 @@ body, html {
 .login-container button:hover {
   background-color: #f0f0f0;
 }
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  margin-top: 20px;
+}
+
+.form-input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
