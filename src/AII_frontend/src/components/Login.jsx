@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useConnect } from '@connect2ic/react';
 import { ConnectButton, ConnectDialog } from '@connect2ic/react';
@@ -23,6 +23,7 @@ function Login() {
   const [nick, setNick] = useState('');
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [callerPrincipal, setCallerPrincipal] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -50,6 +51,15 @@ function Login() {
     } catch (error) {
         console.error('Error al registrar el usuario:', error);
         setErrorMessage('Error al registrar el usuario');
+    }
+  };
+
+  const prueba = async () => {
+    try {
+      const principal = await AII_backend.whoAmi();
+      setCallerPrincipal(principal.toText());
+    } catch (error) {
+      console.error('Error fetching principal:', error);
     }
   };
 
@@ -81,6 +91,8 @@ function Login() {
         />
         <button type="submit" className="form-button">Registrar Usuario</button>
       </form>
+      <button onClick={prueba} className="form-button">¿Quién soy?</button>
+      {callerPrincipal && <p>Principal: {callerPrincipal}</p>}
     </div>
   );
 }
