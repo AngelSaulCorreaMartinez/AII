@@ -8,13 +8,20 @@ import Inscripcion from './components/Inscripcion';  // Asegúrate de importar I
 import NavBar from './components/NavBar';
 import { Connect2ICProvider, useConnect } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
-import { defaultProviders } from '@connect2ic/core/providers';
+import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
 import './styles/commonStyles.css';
-import { UserProvider, useUser } from './UserContext'; // Importa el contexto
+import { UserProvider, useUser } from './UserContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import * as AII_backend from "declarations/AII_backend";
 
+// Configura el cliente con el proveedor InternetIdentity
 const client = createClient({
-  providers: defaultProviders,
+  canisters: {
+    AII_backend, // Asegúrate de que el canister está definido aquí
+  },
+  providers: [
+    new InternetIdentity({ providerUrl: "https://identity.ic0.app" })
+  ],
   globalProviderConfig: {
     dev: import.meta.env.DEV,
   },
@@ -29,7 +36,7 @@ function AppRoutes() {
   useEffect(() => {
     if (isConnected && principal) {
       console.log('Principal:', principal);
-      setPrincipal(principal); // Guarda el principal directamente como string
+      setPrincipal(principal);
     }
     if (!isConnected && location.pathname !== '/') {
       navigate('/');

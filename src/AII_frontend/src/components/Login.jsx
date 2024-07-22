@@ -1,29 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useConnect } from '@connect2ic/react';
+import { useConnect, useCanister } from '@connect2ic/react';
 import { ConnectButton, ConnectDialog } from '@connect2ic/react';
-import { defaultProviders } from '@connect2ic/core/providers';
-import { createClient } from '@connect2ic/core';
-import { AII_backend } from 'declarations/AII_backend'; // Importa tu backend
 import '@connect2ic/core/style.css';
 import '../styles/loginStyles.css';
-import logo from '/logo-completo-utma.png'; // Asegúrate de que la ruta es correcta
-
-const client = createClient({
-  providers: defaultProviders,
-  globalProviderConfig: {
-    dev: import.meta.env.DEV,
-  },
-});
+import logo from '/logo-completo-utma.png';
 
 function Login() {
   const { isConnected, principal } = useConnect();
+  const [AII_backend] = useCanister('AII_backend'); // Usar el hook useCanister
   const navigate = useNavigate();
 
   const [nick, setNick] = useState('');
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [callerPrincipal, setCallerPrincipal] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -35,31 +25,26 @@ function Login() {
     e.preventDefault();
 
     if (!principal) {
-        setErrorMessage('Error: Principal is undefined');
-        return;
+      setErrorMessage('Error: Principal is undefined');
+      return;
     }
 
     if (!nick || !email) {
-        setErrorMessage('Error: Todos los campos son obligatorios');
-        return;
+      setErrorMessage('Error: Todos los campos son obligatorios');
+      return;
     }
 
     try {
-        const response = await AII_backend.registrarse(nick, email); // Llama a registrarse con solo dos argumentos
-        console.log('Respuesta del servidor:', response);
-        navigate('/inicio'); // Redirigir a /inicio solo si el registro es exitoso
+      const response = await AII_backend.registrarse(nick, email);
+      console.log('Respuesta del servidor:', response);
+      if (response.startsWith('Error:')) {
+        setErrorMessage(response);
+      } else {
+        navigate('/inicio');
+      }
     } catch (error) {
-        console.error('Error al registrar el usuario:', error);
-        setErrorMessage('Error al registrar el usuario');
-    }
-  };
-
-  const prueba = async () => {
-    try {
-      const principal = await AII_backend.whoAmi();
-      setCallerPrincipal(principal.toText());
-    } catch (error) {
-      console.error('Error fetching principal:', error);
+      console.error('Error al registrar el usuario:', error);
+      setErrorMessage('Error al registrar el usuario');
     }
   };
 
@@ -91,8 +76,6 @@ function Login() {
         />
         <button type="submit" className="form-button">Registrar Usuario</button>
       </form>
-      <button onClick={prueba} className="form-button">¿Quién soy?</button>
-      {callerPrincipal && <p>Principal: {callerPrincipal}</p>}
     </div>
   );
 }
