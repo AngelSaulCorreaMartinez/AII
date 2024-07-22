@@ -49,9 +49,12 @@ shared ({ caller }) actor class _Plataforma() {
     stable let usuarios = Map.new<Principal, Usuario>();
     stable let alumnos = Map.new<Principal, Alumno>();
     stable let admins = Set.new<Principal>();
+
     stable let administrativos = Map.new<Principal, Administrativo>();
     stable let docentes = Map.new<Principal, Docente>();
     ignore Set.put<Principal>(admins, phash, deployer);
+    ignore Set.put<Principal>(admins,phash,deployer);
+
 
     stable let alumnosIngresantes = Map.new<Principal, RegistroAlumnoForm>();
     stable let proyectosIngresantes = Map.new<Principal, FinanciamientoForm>();
@@ -77,6 +80,7 @@ shared ({ caller }) actor class _Plataforma() {
         let result = Set.has<Principal>(admins, Map.phash, p);
         Debug.print("Is admin: " # (if result { "true" } else { "false" }));
         result;
+
     };
 
     func esAdministrativo(p : Principal) : Bool {
@@ -91,6 +95,7 @@ shared ({ caller }) actor class _Plataforma() {
             case null { false };
             case _ { true };
         };
+
     };
 
     public shared ({ caller }) func agregarAdmin(p : Principal) : async Bool {
