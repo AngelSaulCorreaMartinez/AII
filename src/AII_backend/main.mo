@@ -65,6 +65,7 @@ shared ({ caller }) actor class _Plataforma() {
         Map.get(usuarios, phash, caller);
     };
 
+
     func esUsuario(p : Principal) : Bool {
         return switch (Map.get<Principal, Usuario>(usuarios, Map.phash, p)) {
             case null { false };

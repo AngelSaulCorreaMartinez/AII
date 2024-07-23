@@ -41,7 +41,6 @@ body, html {
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   width: 300px;
   margin-top: 20px;
 }
@@ -50,6 +49,11 @@ body, html {
   padding: 10px;
   border: none;
   border-radius: 5px;
+  margin-bottom: 10px; /* Agrega margen inferior para espacio uniforme */
+}
+
+.form-button {
+  margin-bottom: 10px; /* Agrega margen inferior para espacio uniforme */
 }
 
 .error-message {

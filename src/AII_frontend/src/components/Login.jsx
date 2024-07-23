@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useConnect, useCanister } from '@connect2ic/react';
 import { ConnectButton, ConnectDialog } from '@connect2ic/react';
@@ -8,7 +8,7 @@ import logo from '/logo-completo-utma.png';
 
 function Login() {
   const { isConnected, principal } = useConnect();
-  const [AII_backend] = useCanister('AII_backend'); // Usar el hook useCanister
+  const [AII_backend] = useCanister('AII_backend');
   const navigate = useNavigate();
 
   const [nick, setNick] = useState('');
@@ -21,7 +21,7 @@ function Login() {
     if (name === 'email') setEmail(value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     if (!principal) {
@@ -48,6 +48,28 @@ function Login() {
     }
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!principal) {
+      setErrorMessage('Error: Principal is undefined');
+      return;
+    }
+
+    try {
+      const user = await AII_backend.getMyUser();
+      console.log('Respuesta de getMyUser:', user);
+      if (user && Object.keys(user).length > 0) {
+        navigate('/inicio');
+      } else {
+        setErrorMessage('Usuario no registrado. Favor de registrarse.');
+      }
+    } catch (error) {
+      console.error('Error al verificar si el usuario está registrado:', error);
+      setErrorMessage('Error al verificar si el usuario está registrado');
+    }
+  };
+
   return (
     <div className="login-container">
       <img src={logo} alt="Logo" className="login-logo" />
@@ -55,7 +77,7 @@ function Login() {
       <ConnectButton />
       <ConnectDialog />
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <form onSubmit={handleSubmit} className="login-form">
+      <form className="login-form">
         <input
           type="text"
           name="nick"
@@ -74,7 +96,8 @@ function Login() {
           required
           className="form-input"
         />
-        <button type="submit" className="form-button">Registrar Usuario</button>
+        <button onClick={handleRegister} className="form-button">Registrar Usuario</button>
+        <button onClick={handleLogin} className="form-button">Login</button>
       </form>
     </div>
   );
