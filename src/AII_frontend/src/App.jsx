@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import ConsultaAlumnos from './components/ConsultaAlumnos';
 import CargaAlumnos from './components/CargaAlumnos';
 import Inicio from './components/Inicio';
 import Login from './components/Login';
-import Inscripcion from './components/Inscripcion';  // Asegúrate de importar Inscripcion
+import Inscripcion from './components/Inscripcion';
 import NavBar from './components/NavBar';
-import { Connect2ICProvider, useConnect } from '@connect2ic/react';
+import { Connect2ICProvider, useConnect, useCanister } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
 import './styles/commonStyles.css';
@@ -17,10 +17,9 @@ import * as AII_backend from "declarations/AII_backend";
 // Configura el cliente con el proveedor InternetIdentity
 const client = createClient({
   canisters: {
-    AII_backend, // Asegúrate de que el canister está definido aquí
+    AII_backend,
   },
   providers: [
-    //new InternetIdentity({ providerUrl: "https://identity.ic0.app" })
     new InternetIdentity({ providerUrl: "http://localhost:4943/?canisterId=rdmx6-jaaaa-aaaaa-aaadq-cai" })
   ],
   globalProviderConfig: {
@@ -30,19 +29,35 @@ const client = createClient({
 
 function AppRoutes() {
   const { isConnected, principal } = useConnect();
-  const { setPrincipal } = useUser(); // Obtén la función para establecer el principal
+  const { setPrincipal } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
+  const [AII_backend] = useCanister('AII_backend');
+  const hasCheckedUser = useRef(false); // Nueva bandera
 
   useEffect(() => {
-    if (isConnected && principal) {
-      console.log('Principal:', principal);
-      setPrincipal(principal);
-    }
-    if (!isConnected && location.pathname !== '/') {
-      navigate('/');
-    }
-  }, [isConnected, principal, setPrincipal, navigate, location]);
+    const checkUser = async () => {
+      if (isConnected && principal && !hasCheckedUser.current) {
+        console.log('Principal:', principal);
+        setPrincipal(principal);
+        hasCheckedUser.current = true; // Setea la bandera a true
+        try {
+          const user = await AII_backend.getMyUser();
+          if (user && user.length > 0) { // Verifica si user no es null y tiene longitud mayor a 0
+            navigate('/inicio');
+          } else {
+            console.log('Usuario no registrado. Favor de registrarse.');
+          }
+        } catch (error) {
+          console.error('Error al verificar si el usuario está registrado:', error);
+        }
+      } else if (!isConnected && location.pathname !== '/') {
+        navigate('/');
+      }
+    };
+
+    checkUser();
+  }, [isConnected, principal, setPrincipal, navigate, location, AII_backend]);
 
   return (
     <>

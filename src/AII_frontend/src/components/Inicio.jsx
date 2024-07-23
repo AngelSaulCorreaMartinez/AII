@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../UserContext'; // Importa el contexto
 import '../styles/inicioStyles.css';
@@ -6,7 +6,9 @@ import '../styles/inicioStyles.css';
 function Inicio() {
   const { principal } = useUser(); // Obtén el principal del contexto
 
-  console.log('Principal in Inicio:', principal);
+  useEffect(() => {
+    console.log('Principal in Inicio:', principal);
+  }, [principal]); // Asegúrate de que solo se ejecute cuando `principal` cambie
 
   return (
     <div className="main-content">
