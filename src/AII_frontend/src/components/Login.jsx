@@ -15,6 +15,26 @@ function Login() {
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  useEffect(() => {
+    const checkIfUserExists = async () => {
+      if (isConnected && principal) {
+        try {
+          const isUser = await AII_backend.esUsuario(principal.toString());
+          if (isUser) {
+            navigate('/inicio');
+          } else {
+            setErrorMessage('Favor de registrar su usuario');
+          }
+        } catch (error) {
+          console.error('Error al verificar si el usuario está registrado:', error);
+          setErrorMessage('Error al verificar si el usuario está registrado');
+        }
+      }
+    };
+
+    checkIfUserExists();
+  }, [isConnected, principal, AII_backend, navigate]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'nick') setNick(value);
