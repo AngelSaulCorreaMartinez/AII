@@ -1,16 +1,26 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useConnect } from '@connect2ic/react';
 import '../styles/navBarStyles.css';
 import logo from '/logo-completo-utma.png'; // Asegúrate de que la ruta es correcta
 
 function NavBar() {
   const { isConnected, disconnect, connect } = useConnect();
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/inicio');
+  };
+
+  const handleLogout = async () => {
+    await disconnect();
+    navigate('/');
+  };
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
-      <Navbar.Brand as={Link} to="/">
+      <Navbar.Brand onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
         <img src={logo} alt="Logo" className="nav-logo" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -27,7 +37,7 @@ function NavBar() {
         </Nav>
         <Nav>
           {isConnected ? (
-            <Nav.Link onClick={disconnect}>Cerrar Sesión</Nav.Link>
+            <Nav.Link onClick={handleLogout}>Cerrar Sesión</Nav.Link>
           ) : (
             <Nav.Link onClick={connect}>Iniciar Sesión</Nav.Link>
           )}
