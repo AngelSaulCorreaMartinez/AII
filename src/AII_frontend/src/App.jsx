@@ -20,10 +20,11 @@ const client = createClient({
     AII_backend, // Asegúrate de que el canister está definido aquí
   },
   providers: [
-    new InternetIdentity({ providerUrl: "https://identity.ic0.app" })
+    //new InternetIdentity({ providerUrl: "https://identity.ic0.app" })
+    new InternetIdentity({ providerUrl: "http://127.0.0.1:8000/?canisterId=rdmx6-jaaaa-aaaaa-aaadq-cai" })
   ],
   globalProviderConfig: {
-    dev: import.meta.env.DEV,
+    dev: true,
   },
 });
 
