@@ -21,6 +21,7 @@ function Inicio() {
       <div className="button-container">
         <Link to="/consultar" className="nav-link"><button className="button">Consultar Alumnos</button></Link>
         <Link to="/cargar" className="nav-link"><button className="button">Cargar Alumnos</button></Link>
+        <Link to="/registro-alumno" className="nav-link"><button className="button">Registrar Alumno</button></Link>
       </div>
     </div>
   );

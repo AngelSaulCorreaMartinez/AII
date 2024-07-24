@@ -3,7 +3,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useConnect } from '@connect2ic/react';
 import '../styles/navBarStyles.css';
-import logo from '/logo-completo-utma.png'; // Asegúrate de que la ruta es correcta
+import logo from '/logo-completo-utma.png';
 
 function NavBar() {
   const { isConnected, disconnect, connect } = useConnect();
@@ -29,6 +29,7 @@ function NavBar() {
           <NavDropdown title="Menú" id="basic-nav-dropdown">
             <NavDropdown.Item as={Link} to="/consultar">Consultar Alumnos</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/cargar">Cargar Alumnos</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/registro-alumno">Registrar Alumno</NavDropdown.Item>
             <NavDropdown title={<span className="inscripcion-dropdown">Inscripción</span>} id="inscripcion-nav-dropdown" className="submenu-right">
               <NavDropdown.Item as={Link} to="/inscripcion/nuevo">Nuevo Ingreso</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/inscripcion/validar">Validar Datos</NavDropdown.Item>

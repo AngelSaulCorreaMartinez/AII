@@ -6,6 +6,7 @@ import Inicio from './components/Inicio';
 import Login from './components/Login';
 import Inscripcion from './components/Inscripcion';
 import NavBar from './components/NavBar';
+import RegistroAlumno from './components/RegistroAlumno';
 import { Connect2ICProvider, useConnect, useCanister } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
@@ -14,7 +15,6 @@ import { UserProvider, useUser } from './UserContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as AII_backend from "declarations/AII_backend";
 
-// Configura el cliente con el proveedor InternetIdentity
 const client = createClient({
   canisters: {
     AII_backend,
@@ -40,7 +40,7 @@ function AppRoutes() {
       if (isConnected && principal && !hasCheckedUser.current) {
         console.log('Principal:', principal);
         setPrincipal(principal);
-        hasCheckedUser.current = true; 
+        hasCheckedUser.current = true;
         try {
           const user = await AII_backend.getMyUser();
           console.log('Respuesta de getMyUser:', user);
@@ -70,6 +70,7 @@ function AppRoutes() {
         <Route path="/cargar" element={<CargaAlumnos />} />
         <Route path="/inscripcion/nuevo" element={<Inscripcion mode="nuevo" />} />
         <Route path="/inscripcion/validar" element={<Inscripcion mode="validar" />} />
+        <Route path="/registro-alumno" element={<RegistroAlumno />} />
       </Routes>
     </>
   );
