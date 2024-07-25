@@ -141,6 +141,31 @@ shared ({ caller }) actor class _Plataforma() {
         };
     };
 
+    public shared ({ caller }) func aprobarRegistroDeAlumno(solicitante : Principal) : async Text {
+        Debug.print("Approving student registration for: " # Principal.toText(solicitante));
+        assert esAdmin(caller);
+        let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, solicitante);
+        switch usuario {
+            case null { return "El usuario no está registrado"; };
+            case (?usuario) {
+                let solicitud = Map.remove<Principal, RegistroAlumnoForm>(alumnosIngresantes, Map.phash, solicitante);
+                switch (solicitud) {
+                    case null { return "No hay solicitud de registro de alumno para este usuario"; };
+                    case (?solicitud) {
+                        let nuevoAlumno : Alumno = {
+                            solicitud with
+                            principal = solicitante;
+                            aid = generarAid();
+                        };
+                        ignore Map.put<Principal, Alumno>(alumnos, Map.phash, solicitante, nuevoAlumno);
+                        ignore Map.put<Principal, Usuario>(usuarios, Map.phash, solicitante, {usuario with rol = #Alumno});
+                        return "A" # Nat.toText(actualAid);
+                    };
+                };
+            };
+        };
+    };
+
     public shared ({ caller }) func registrarseComoAdministrativo(_init : RegistroAdministrativoForm) : async Text {
         assert not Principal.isAnonymous(caller);
         let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, caller);
@@ -152,21 +177,6 @@ shared ({ caller }) actor class _Plataforma() {
                 };
                 ignore Map.put<Principal, RegistroAdministrativoForm>(administrativosIngresantes, Map.phash, caller, _init);
                 return "Solicitud de registro como administrativo ingresada exitosamente";
-            };
-        };
-    };
-
-    public shared ({ caller }) func registrarseComoDocente(_init : RegistroDocenteForm) : async Text {
-        assert not Principal.isAnonymous(caller);
-        let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, caller);
-        switch usuario {
-            case null { return "Debe registrarse como usuario previamente"; };
-            case (?usuario) {
-                if (Map.has<Principal, RegistroDocenteForm>(docentesIngresantes, Map.phash, caller)) {
-                    return "Usted ya tiene pendiente de aprobación una solicitud de registro como docente";
-                };
-                ignore Map.put<Principal, RegistroDocenteForm>(docentesIngresantes, Map.phash, caller, _init);
-                return "Solicitud de registro como docente ingresada exitosamente";
             };
         };
     };
@@ -195,8 +205,23 @@ shared ({ caller }) actor class _Plataforma() {
         };
     };
 
+    public shared ({ caller }) func registrarseComoDocente(_init : RegistroDocenteForm) : async Text {
+        assert not Principal.isAnonymous(caller);
+        let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, caller);
+        switch usuario {
+            case null { return "Debe registrarse como usuario previamente"; };
+            case (?usuario) {
+                if (Map.has<Principal, RegistroDocenteForm>(docentesIngresantes, Map.phash, caller)) {
+                    return "Usted ya tiene pendiente de aprobación una solicitud de registro como docente";
+                };
+                ignore Map.put<Principal, RegistroDocenteForm>(docentesIngresantes, Map.phash, caller, _init);
+                return "Solicitud de registro como docente ingresada exitosamente";
+            };
+        };
+    };
+
     public shared ({ caller }) func aprobarRegistroDeDocente(solicitante : Principal) : async Text {
-        Debug.print("Approving docente registration for: " # Principal.toText(solicitante));
+        Debug.print("Approving teacher registration for: " # Principal.toText(solicitante));
         assert esAdmin(caller);
         let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, solicitante);
         switch usuario {
@@ -209,7 +234,7 @@ shared ({ caller }) actor class _Plataforma() {
                         let nuevoDocente : Docente = {
                             solicitud with
                             principalID = solicitante;
-                            materias = solicitud.materias; // Añadir materias
+                            materias = solicitud.materias;
                         };
                         ignore Map.put<Principal, Docente>(docentes, Map.phash, solicitante, nuevoDocente);
                         ignore Map.put<Principal, Usuario>(usuarios, Map.phash, solicitante, {usuario with rol = #Profesor});
