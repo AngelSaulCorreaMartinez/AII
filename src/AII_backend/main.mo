@@ -281,4 +281,11 @@ shared ({ caller }) actor class _Plataforma() {
             {key = "Alumnos"; value = Nat.toText(Map.size(alumnos))}
         ]
     };
+
+    public shared query ({ caller }) func verAlumnos() : async [Alumno] {
+        assert esAdmin(caller);
+        Iter.toArray(Map.vals<Principal, Alumno>(alumnos));
+    };
+
+
 };
