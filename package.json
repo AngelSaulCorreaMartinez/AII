@@ -18,6 +18,8 @@
   "dependencies": {
     "@connect2ic/core": "^0.2.0-beta.24",
     "@connect2ic/react": "^0.2.0-beta.24",
+    "@dfinity/agent": "^2.0.0",
+    "@dfinity/principal": "^2.0.0",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "bootstrap": "^5.3.3",

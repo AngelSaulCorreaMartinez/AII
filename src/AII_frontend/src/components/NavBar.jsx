@@ -31,6 +31,7 @@ function NavBar() {
             <NavDropdown.Item as={Link} to="/cargar">Cargar Alumnos</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/registro-alumno">Registrar Alumno</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/registro-administrativo">Registrar Administrativo</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/ver-alumnos-ingresantes">Ver Alumnos Ingresantes</NavDropdown.Item>
             <NavDropdown title={<span className="inscripcion-dropdown">Inscripción</span>} id="inscripcion-nav-dropdown" className="submenu-right">
               <NavDropdown.Item as={Link} to="/inscripcion/nuevo">Nuevo Ingreso</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/inscripcion/validar">Validar Datos</NavDropdown.Item>

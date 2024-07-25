@@ -8,6 +8,7 @@ import Inscripcion from './components/Inscripcion';
 import NavBar from './components/NavBar';
 import RegistroAlumno from './components/RegistroAlumno';
 import RegistroAdministrativo from './components/RegistroAdministrativo';
+import VerAlumnosIngresantes from './components/VerAlumnosIngresantes'; // Importa el nuevo componente
 import { Connect2ICProvider, useConnect, useCanister } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
@@ -74,6 +75,7 @@ function AppRoutes() {
         <Route path="/inscripcion/validar" element={<Inscripcion mode="validar" />} />
         <Route path="/registro-alumno" element={<RegistroAlumno />} />
         <Route path="/registro-administrativo" element={<RegistroAdministrativo />} />
+        <Route path="/ver-alumnos-ingresantes" element={<VerAlumnosIngresantes />} /> {/* Agrega la nueva ruta */}
       </Routes>
     </>
   );
