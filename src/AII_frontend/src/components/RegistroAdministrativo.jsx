@@ -38,7 +38,7 @@ function RegistroAdministrativo() {
     try {
       const response = await AII_backend.registrarseComoAdministrativo({
         ...form,
-        principalID: principal // Enviar el principal correctamente
+        principalID: principal
       });
       setMessage(response);
     } catch (error) {
