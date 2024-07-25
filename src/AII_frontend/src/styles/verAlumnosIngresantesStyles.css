@@ -29,11 +29,11 @@
 }
 
 .alumnos-table tr:nth-child(even) {
-  background-color: #004b72;
+  background-color: #1a1a1a;
 }
 
 .alumnos-table tr:nth-child(odd) {
-  background-color: #005c8a;
+  background-color: #2a2a2a;
 }
 
 .alumnos-table tr:hover {
@@ -49,13 +49,12 @@
 }
 
 .approve-button {
-  padding: 8px 12px;
   background-color: #28a745;
-  color: #fff;
+  color: white;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
 .approve-button:hover {
