@@ -85,6 +85,25 @@ module {
         cedulaProfesional: Text;
     };
 
+    public type RegistroDocenteForm = {
+        nombre: Text;
+        apellidoPaterno: Text;
+        apellidoMaterno: Text;
+        tipoSanguineo: Text;
+        fechaNacimiento: Text;
+        curp: Text;
+        genero: Text;
+        lugarNacimiento: Text;
+        estadoCivil: Text;
+        emailPersonal: Text;
+        direcciones: [Text];
+        telefonos: [Text];
+        detallesMedicos: Text;
+        numeroSeguroSocial: Text;
+        cedulaProfesional: Text;
+        materias: [Text];
+    };
+
     public type Alumno = {
         principal: Principal;
         aid: Text;
@@ -152,5 +171,6 @@ module {
         detallesMedicos: Text;
         numeroSeguroSocial: Text;
         cedulaProfesional: Text;
+        materias: [Text];
     };
 };

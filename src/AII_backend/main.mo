@@ -24,6 +24,7 @@ shared ({ caller }) actor class _Plataforma() {
 
     public type RegistroAlumnoForm = Types.RegistroAlumnoForm;
     public type RegistroAdministrativoForm = Types.RegistroAdministrativoForm;
+    public type RegistroDocenteForm = Types.RegistroDocenteForm;
 
     stable var actualUid : Nat = 0;
     stable var actualAid : Nat = 0;
@@ -49,6 +50,7 @@ shared ({ caller }) actor class _Plataforma() {
 
     stable let alumnosIngresantes = Map.new<Principal, RegistroAlumnoForm>();
     stable let administrativosIngresantes = Map.new<Principal, RegistroAdministrativoForm>();
+    stable let docentesIngresantes = Map.new<Principal, RegistroDocenteForm>();
 
     public shared ({ caller }) func getMyUser() : async ?Usuario {
         Map.get(usuarios, phash, caller);
@@ -154,6 +156,21 @@ shared ({ caller }) actor class _Plataforma() {
         };
     };
 
+    public shared ({ caller }) func registrarseComoDocente(_init : RegistroDocenteForm) : async Text {
+        assert not Principal.isAnonymous(caller);
+        let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, caller);
+        switch usuario {
+            case null { return "Debe registrarse como usuario previamente"; };
+            case (?usuario) {
+                if (Map.has<Principal, RegistroDocenteForm>(docentesIngresantes, Map.phash, caller)) {
+                    return "Usted ya tiene pendiente de aprobación una solicitud de registro como docente";
+                };
+                ignore Map.put<Principal, RegistroDocenteForm>(docentesIngresantes, Map.phash, caller, _init);
+                return "Solicitud de registro como docente ingresada exitosamente";
+            };
+        };
+    };
+
     public shared ({ caller }) func aprobarRegistroDeAdministrativo(solicitante : Principal) : async Text {
         Debug.print("Approving administrative registration for: " # Principal.toText(solicitante));
         assert esAdmin(caller);
@@ -178,6 +195,31 @@ shared ({ caller }) actor class _Plataforma() {
         };
     };
 
+    public shared ({ caller }) func aprobarRegistroDeDocente(solicitante : Principal) : async Text {
+        Debug.print("Approving docente registration for: " # Principal.toText(solicitante));
+        assert esAdmin(caller);
+        let usuario = Map.get<Principal, Usuario>(usuarios, Map.phash, solicitante);
+        switch usuario {
+            case null { return "El usuario no está registrado"; };
+            case (?usuario) {
+                let solicitud = Map.remove<Principal, RegistroDocenteForm>(docentesIngresantes, Map.phash, solicitante);
+                switch (solicitud) {
+                    case null { return "No hay solicitud de registro de docente para este usuario"; };
+                    case (?solicitud) {
+                        let nuevoDocente : Docente = {
+                            solicitud with
+                            principalID = solicitante;
+                            materias = solicitud.materias; // Añadir materias
+                        };
+                        ignore Map.put<Principal, Docente>(docentes, Map.phash, solicitante, nuevoDocente);
+                        ignore Map.put<Principal, Usuario>(usuarios, Map.phash, solicitante, {usuario with rol = #Profesor});
+                        return "Registro aprobado";
+                    };
+                };
+            };
+        };
+    };
+
     public shared query ({ caller }) func verAlumnosIngresantes() : async [(Principal, RegistroAlumnoForm)] {
         assert esAdmin(caller);
         Iter.toArray(Map.entries<Principal, RegistroAlumnoForm>(alumnosIngresantes));
@@ -186,6 +228,11 @@ shared ({ caller }) actor class _Plataforma() {
     public shared query ({ caller }) func verAdministrativosIngresantes() : async [(Principal, RegistroAdministrativoForm)] {
         assert esAdmin(caller);
         Iter.toArray(Map.entries<Principal, RegistroAdministrativoForm>(administrativosIngresantes));
+    };
+
+    public shared query ({ caller }) func verDocentesIngresantes() : async [(Principal, RegistroDocenteForm)] {
+        assert esAdmin(caller);
+        Iter.toArray(Map.entries<Principal, RegistroDocenteForm>(docentesIngresantes));
     };
 
     public shared query ({ caller }) func verAdministrativos() : async [Administrativo] {
