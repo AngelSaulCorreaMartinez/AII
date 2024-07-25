@@ -198,7 +198,7 @@ shared ({ caller }) actor class _Plataforma() {
                         };
                         ignore Map.put<Principal, Administrativo>(administrativos, Map.phash, solicitante, nuevoAdministrativo);
                         ignore Map.put<Principal, Usuario>(usuarios, Map.phash, solicitante, {usuario with rol = #Administrativo});
-                        return "Registro aprobado";
+                        return "Registro aprobado (Administrativo)";
                     };
                 };
             };

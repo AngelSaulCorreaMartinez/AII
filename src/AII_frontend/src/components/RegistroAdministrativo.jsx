@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useCanister, useConnect } from '@connect2ic/react';
+import React, { useState } from 'react';
+import { useCanister } from '@connect2ic/react';
 import '../styles/registroAdministrativoStyles.css';
 
 function RegistroAdministrativo() {
   const [AII_backend] = useCanister('AII_backend');
-  const { principal } = useConnect();
   const [form, setForm] = useState({
-    principalID: '', nombre: '', apellidoPaterno: '', apellidoMaterno: '', tipoSanguineo: '', fechaNacimiento: '',
+    nombre: '', apellidoPaterno: '', apellidoMaterno: '', tipoSanguineo: '', fechaNacimiento: '',
     curp: '', genero: '', lugarNacimiento: '', estadoCivil: '', emailPersonal: '', direcciones: [''],
     telefonos: [''], detallesMedicos: '', numeroSeguroSocial: '', cedulaProfesional: ''
   });
   const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    if (principal) {
-      setForm(prevForm => ({ ...prevForm, principalID: principal.toString() }));
-    }
-  }, [principal]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -36,10 +29,7 @@ function RegistroAdministrativo() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await AII_backend.registrarseComoAdministrativo({
-        ...form,
-        principalID: principal
-      });
+      const response = await AII_backend.registrarseComoAdministrativo(form);
       setMessage(response);
     } catch (error) {
       setMessage('Error al registrar administrativo.');
@@ -52,7 +42,6 @@ function RegistroAdministrativo() {
       <h2>Solicitar Registro como Administrativo</h2>
       <form className="registro-admin-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <input type="text" name="principalID" value={form.principalID} readOnly placeholder="Principal ID" />
           <input type="text" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Nombre" required />
           <input type="text" name="apellidoPaterno" value={form.apellidoPaterno} onChange={handleChange} placeholder="Apellido Paterno" required />
           <input type="text" name="apellidoMaterno" value={form.apellidoMaterno} onChange={handleChange} placeholder="Apellido Materno" required />
