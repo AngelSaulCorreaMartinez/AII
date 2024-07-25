@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useUser } from '../UserContext'; // Importa el contexto
+import { useUser } from '../UserContext';
 import '../styles/inicioStyles.css';
 
 function Inicio() {
-  const { principal } = useUser(); // Obtén el principal del contexto
+  const { principal } = useUser();
 
   useEffect(() => {
     console.log('Principal in Inicio:', principal);
-  }, [principal]); // Asegúrate de que solo se ejecute cuando `principal` cambie
+  }, [principal]);
 
   return (
     <div className="main-content">
@@ -18,11 +17,6 @@ function Inicio() {
       ) : (
         <p className="principal-text">No se ha encontrado el principal</p>
       )}
-      <div className="button-container">
-        <Link to="/consultar" className="nav-link"><button className="button">Consultar Alumnos</button></Link>
-        <Link to="/cargar" className="nav-link"><button className="button">Cargar Alumnos</button></Link>
-        <Link to="/registro-alumno" className="nav-link"><button className="button">Registrar Alumno</button></Link>
-      </div>
     </div>
   );
 }
