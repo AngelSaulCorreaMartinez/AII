@@ -24,7 +24,9 @@
   content: none; /* Elimina el icono de flecha */
 }
 
-.inscripcion-dropdown, .alumnos-dropdown {
+.alumnos-dropdown,
+.administrativos-dropdown,
+.inscripcion-dropdown {
   color: #000 !important; /* Asegura que el texto sea negro */
 }
 

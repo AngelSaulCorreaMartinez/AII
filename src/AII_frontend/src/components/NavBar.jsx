@@ -1,3 +1,4 @@
+// Archivo: src/components/NavBar.jsx
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
@@ -29,11 +30,15 @@ function NavBar() {
           <NavDropdown title="Menú" id="basic-nav-dropdown">
             <NavDropdown.Item as={Link} to="/consultar">Consultar Alumnos</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/cargar">Cargar Alumnos</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="/registro-administrativo">Registrar Administrativo</NavDropdown.Item>
             <NavDropdown title={<span className="alumnos-dropdown">Alumnos</span>} id="alumnos-nav-dropdown" className="submenu-right">
               <NavDropdown.Item as={Link} to="/ver-alumnos-ingresantes">Alumnos Ingresantes</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/ver-alumnos-inscritos">Alumnos Inscritos</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/registro-alumno">Registrar Alumno</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title={<span className="administrativos-dropdown">Administrativos</span>} id="administrativos-nav-dropdown" className="submenu-right">
+              <NavDropdown.Item as={Link} to="/registro-administrativo">Registrar Administrativo</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/ver-administrativos">Ver Administrativos</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/aprobar-administrativo">Aprobar Administrativo</NavDropdown.Item> {/* Nueva opción */}
             </NavDropdown>
             <NavDropdown title={<span className="inscripcion-dropdown">Inscripción</span>} id="inscripcion-nav-dropdown" className="submenu-right">
               <NavDropdown.Item as={Link} to="/inscripcion/nuevo">Nuevo Ingreso</NavDropdown.Item>
