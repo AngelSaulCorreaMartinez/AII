@@ -9,12 +9,16 @@ import Inscripcion from './components/Inscripcion';
 import NavBar from './components/NavBar';
 import RegistroAlumno from './components/RegistroAlumno';
 import RegistroAdministrativo from './components/RegistroAdministrativo';
+import RegistroDocente from './components/RegistroDocente'; // Importa el nuevo componente
 import VerAlumnosIngresantes from './components/VerAlumnosIngresantes';
 import VerAlumnosInscritos from './components/VerAlumnosInscritos';
 import VerAdministrativos from './components/VerAdministrativos'; 
+import VerDocentes from './components/VerDocentes'; // Importa el nuevo componente
 import AprobarAdministrativo from './components/AprobarAdministrativo';
-import DetallesAdministrativo from './components/DetallesAdministrativo';
+import AprobarDocente from './components/AprobarDocente'; // Importa el nuevo componente
 import DetallesAlumno from './components/DetallesAlumno'; // Importa el nuevo componente
+import DetallesAdministrativo from './components/DetallesAdministrativo'; // Importa el nuevo componente
+import DetallesDocente from './components/DetallesDocente'; // Importa el nuevo componente
 import { Connect2ICProvider, useConnect, useCanister } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
@@ -80,12 +84,16 @@ function AppRoutes() {
         <Route path="/inscripcion/validar" element={<Inscripcion mode="validar" />} />
         <Route path="/registro-alumno" element={<RegistroAlumno />} />
         <Route path="/registro-administrativo" element={<RegistroAdministrativo />} />
+        <Route path="/registro-docente" element={<RegistroDocente />} />
         <Route path="/ver-alumnos-ingresantes" element={<VerAlumnosIngresantes />} />
         <Route path="/ver-alumnos-inscritos" element={<VerAlumnosInscritos />} />
         <Route path="/ver-administrativos" element={<VerAdministrativos />} />
+        <Route path="/ver-docentes" element={<VerDocentes />} />
         <Route path="/aprobar-administrativo" element={<AprobarAdministrativo />} />
+        <Route path="/aprobar-docente" element={<AprobarDocente />} />
+        <Route path="/detalles-alumno/:principal" element={<DetallesAlumno />} />
         <Route path="/detalles-administrativo/:principal" element={<DetallesAdministrativo />} />
-        <Route path="/detalles-alumno/:principal" element={<DetallesAlumno />} /> {/* Nueva ruta */}
+        <Route path="/detalles-docente/:principal" element={<DetallesDocente />} />
       </Routes>
     </>
   );
