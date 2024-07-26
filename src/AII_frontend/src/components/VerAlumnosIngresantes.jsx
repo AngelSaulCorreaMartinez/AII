@@ -37,7 +37,7 @@ function VerAlumnosIngresantes() {
 
   return (
     <div className="ver-alumnos-ingresantes-container">
-      <h2>Alumnos Ingresantes</h2>
+      <h2 className="table-heading">Alumnos Ingresantes</h2>
       {loading ? (
         <p>Cargando...</p>
       ) : (

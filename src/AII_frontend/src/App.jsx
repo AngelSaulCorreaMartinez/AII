@@ -9,7 +9,8 @@ import NavBar from './components/NavBar';
 import RegistroAlumno from './components/RegistroAlumno';
 import RegistroAdministrativo from './components/RegistroAdministrativo';
 import VerAlumnosIngresantes from './components/VerAlumnosIngresantes';
-import VerAlumnosInscritos from './components/VerAlumnosInscritos'; // Importa el nuevo componente
+import VerAlumnosInscritos from './components/VerAlumnosInscritos';
+import DetallesAlumno from './components/DetallesAlumno'; // Importa el nuevo componente
 import { Connect2ICProvider, useConnect, useCanister } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
@@ -18,6 +19,7 @@ import { UserProvider, useUser } from './UserContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as AII_backend from "declarations/AII_backend";
 
+// Configura el cliente con el proveedor InternetIdentity
 const client = createClient({
   canisters: {
     AII_backend,
@@ -76,7 +78,8 @@ function AppRoutes() {
         <Route path="/registro-alumno" element={<RegistroAlumno />} />
         <Route path="/registro-administrativo" element={<RegistroAdministrativo />} />
         <Route path="/ver-alumnos-ingresantes" element={<VerAlumnosIngresantes />} />
-        <Route path="/ver-alumnos-inscritos" element={<VerAlumnosInscritos />} /> {/* Nueva ruta */}
+        <Route path="/ver-alumnos-inscritos" element={<VerAlumnosInscritos />} />
+        <Route path="/detalles-alumno/:principal" element={<DetallesAlumno />} /> {/* Agrega la nueva ruta */}
       </Routes>
     </>
   );

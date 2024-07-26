@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useCanister } from '@connect2ic/react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/verAlumnosInscritosStyles.css';
 
 function VerAlumnosInscritos() {
   const [AII_backend] = useCanister('AII_backend');
   const [alumnosInscritos, setAlumnosInscritos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAlumnosInscritos = async () => {
@@ -21,6 +23,10 @@ function VerAlumnosInscritos() {
 
     fetchAlumnosInscritos();
   }, [AII_backend]);
+
+  const handleVerDetalles = (principal) => {
+    navigate(`/detalles-alumno/${principal}`);
+  };
 
   return (
     <div className="ver-alumnos-inscritos-container">
@@ -38,6 +44,7 @@ function VerAlumnosInscritos() {
               <th>Email Institucional</th>
               <th>Carrera</th>
               <th>Semestre</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -50,6 +57,11 @@ function VerAlumnosInscritos() {
                 <td>{alumno.emailInstitucional}</td>
                 <td>{alumno.carrera}</td>
                 <td>{alumno.semestre.toString()}</td>
+                <td>
+                  <button onClick={() => handleVerDetalles(alumno.principal.toString())} className="details-button">
+                    Ver Detalles
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
