@@ -1,3 +1,4 @@
+// Archivo: src/components/DetallesAlumno.jsx
 import React, { useState, useEffect } from 'react';
 import { useCanister } from '@connect2ic/react';
 import { useParams } from 'react-router-dom';
@@ -45,6 +46,7 @@ function DetallesAlumno() {
           <p><strong>Fecha de Nacimiento:</strong> {alumno.fechaNacimiento}</p>
           <p><strong>Género:</strong> {alumno.genero}</p>
           <p><strong>CURP:</strong> {alumno.curp}</p>
+          <p><strong>Principal:</strong> {alumno.principal.toString()}</p>
         </div>
         <div className="dashboard-section">
           <h3>Información de Contacto</h3>

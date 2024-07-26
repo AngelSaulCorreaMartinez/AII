@@ -1,3 +1,4 @@
+// Archivo: src/App.jsx
 import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import ConsultaAlumnos from './components/ConsultaAlumnos';
@@ -10,9 +11,10 @@ import RegistroAlumno from './components/RegistroAlumno';
 import RegistroAdministrativo from './components/RegistroAdministrativo';
 import VerAlumnosIngresantes from './components/VerAlumnosIngresantes';
 import VerAlumnosInscritos from './components/VerAlumnosInscritos';
-import VerAdministrativos from './components/VerAdministrativos';
-import DetallesAlumno from './components/DetallesAlumno';
-import AprobarAdministrativo from './components/AprobarAdministrativo'; // Importa el nuevo componente
+import VerAdministrativos from './components/VerAdministrativos'; 
+import AprobarAdministrativo from './components/AprobarAdministrativo';
+import DetallesAdministrativo from './components/DetallesAdministrativo';
+import DetallesAlumno from './components/DetallesAlumno'; // Importa el nuevo componente
 import { Connect2ICProvider, useConnect, useCanister } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
@@ -81,8 +83,9 @@ function AppRoutes() {
         <Route path="/ver-alumnos-ingresantes" element={<VerAlumnosIngresantes />} />
         <Route path="/ver-alumnos-inscritos" element={<VerAlumnosInscritos />} />
         <Route path="/ver-administrativos" element={<VerAdministrativos />} />
-        <Route path="/detalles-alumno/:principal" element={<DetallesAlumno />} />
-        <Route path="/aprobar-administrativo" element={<AprobarAdministrativo />} /> {/* Agrega la nueva ruta */}
+        <Route path="/aprobar-administrativo" element={<AprobarAdministrativo />} />
+        <Route path="/detalles-administrativo/:principal" element={<DetallesAdministrativo />} />
+        <Route path="/detalles-alumno/:principal" element={<DetallesAlumno />} /> {/* Nueva ruta */}
       </Routes>
     </>
   );
