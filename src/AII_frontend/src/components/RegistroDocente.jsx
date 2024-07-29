@@ -45,12 +45,38 @@ function RegistroDocente() {
           <input type="text" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Nombre" required />
           <input type="text" name="apellidoPaterno" value={form.apellidoPaterno} onChange={handleChange} placeholder="Apellido Paterno" required />
           <input type="text" name="apellidoMaterno" value={form.apellidoMaterno} onChange={handleChange} placeholder="Apellido Materno" required />
-          <input type="text" name="tipoSanguineo" value={form.tipoSanguineo} onChange={handleChange} placeholder="Tipo Sanguíneo" required />
+          <select name="tipoSanguineo" value={form.tipoSanguineo} onChange={handleChange} required>
+            <option value="">Seleccione Tipo Sanguíneo</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
           <input type="date" name="fechaNacimiento" value={form.fechaNacimiento} onChange={handleChange} placeholder="Fecha de Nacimiento" required />
           <input type="text" name="curp" value={form.curp} onChange={handleChange} placeholder="CURP" required />
-          <input type="text" name="genero" value={form.genero} onChange={handleChange} placeholder="Género" required />
+          <select name="genero" value={form.genero} onChange={handleChange} required>
+            <option value="">Seleccione Género</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+          </select>
           <input type="text" name="lugarNacimiento" value={form.lugarNacimiento} onChange={handleChange} placeholder="Lugar de Nacimiento" required />
-          <input type="text" name="estadoCivil" value={form.estadoCivil} onChange={handleChange} placeholder="Estado Civil" required />
+          <select name="estadoCivil" value={form.estadoCivil} onChange={handleChange} required>
+            <option value="">Seleccione Estado Civil</option>
+            <option value="soltero/a">Soltero/a</option>
+            <option value="casado por lo civil">Casado por lo civil</option>
+            <option value="divorciado legalmente">Divorciado legalmente</option>
+            <option value="separado legalmente">Separado legalmente</option>
+            <option value="viudo de matrimonio civil">Viudo de matrimonio civil</option>
+            <option value="viudo de matrimonio religioso">Viudo de matrimonio religioso</option>
+            <option value="viudo de matrimonio civil y religioso">Viudo de matrimonio civil y religioso</option>
+            <option value="vive en unión libre">Vive en unión libre</option>
+            <option value="separado de unión libre">Separado de unión libre</option>
+            <option value="viudo de unión libre">Viudo de unión libre</option>
+          </select>
           <input type="email" name="emailPersonal" value={form.emailPersonal} onChange={handleChange} placeholder="Email Personal" required />
         </div>
         <div className="form-group">

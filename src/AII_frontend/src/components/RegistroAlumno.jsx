@@ -48,7 +48,17 @@ function RegistroAlumno() {
           <input type="text" name="nombre" value={form.nombre} onChange={handleChange} placeholder="Nombre" required />
           <input type="text" name="apellidoPaterno" value={form.apellidoPaterno} onChange={handleChange} placeholder="Apellido Paterno" required />
           <input type="text" name="apellidoMaterno" value={form.apellidoMaterno} onChange={handleChange} placeholder="Apellido Materno" required />
-          <input type="text" name="tipoSanguineo" value={form.tipoSanguineo} onChange={handleChange} placeholder="Tipo Sanguíneo" required />
+          <select name="tipoSanguineo" value={form.tipoSanguineo} onChange={handleChange} required>
+            <option value="">Seleccione Tipo Sanguíneo</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
           <input type="date" name="fechaNacimiento" value={form.fechaNacimiento} onChange={handleChange} placeholder="Fecha de Nacimiento" required />
           <input type="text" name="curp" value={form.curp} onChange={handleChange} placeholder="CURP" required />
           <select name="genero" value={form.genero} onChange={handleChange} required>
