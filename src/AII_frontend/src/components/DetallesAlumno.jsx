@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCanister } from '@connect2ic/react';
 import { useParams } from 'react-router-dom';
-import '../styles/detallesAlumnoStyles.css';
+import '../styles/detallesStyles.css';
 
 function DetallesAlumno() {
   const [AII_backend] = useCanister('AII_backend');
@@ -35,7 +35,7 @@ function DetallesAlumno() {
   }
 
   return (
-    <div className="detalles-alumno-dashboard">
+    <div className="detalles-dashboard">
       <h2 className="dashboard-heading">Detalles del Alumno</h2>
       <div className="dashboard-sections">
         <div className="dashboard-section">

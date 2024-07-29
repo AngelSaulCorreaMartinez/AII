@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCanister } from '@connect2ic/react';
 import { useParams } from 'react-router-dom';
-import '../styles/detallesAdministrativoStyles.css';
+import '../styles/detallesStyles.css';
 
 function DetallesAdministrativo() {
   const [AII_backend] = useCanister('AII_backend');
@@ -35,18 +35,18 @@ function DetallesAdministrativo() {
   }
 
   return (
-    <div className="detalles-administrativo-dashboard">
+    <div className="detalles-dashboard">
       <h2 className="dashboard-heading">Detalles del Administrativo</h2>
       <div className="dashboard-sections">
         <div className="dashboard-section">
           <h3>Información Personal</h3>
+          <p><strong>Principal:</strong> {administrativo.principalID.toString()}</p>
           <p><strong>Nombre:</strong> {administrativo.nombre}</p>
           <p><strong>Apellido Paterno:</strong> {administrativo.apellidoPaterno}</p>
           <p><strong>Apellido Materno:</strong> {administrativo.apellidoMaterno}</p>
           <p><strong>Fecha de Nacimiento:</strong> {administrativo.fechaNacimiento}</p>
           <p><strong>Género:</strong> {administrativo.genero}</p>
           <p><strong>CURP:</strong> {administrativo.curp}</p>
-          <p><strong>Principal:</strong> {administrativo.principalID.toString()}</p>
         </div>
         <div className="dashboard-section">
           <h3>Información de Contacto</h3>
@@ -56,7 +56,7 @@ function DetallesAdministrativo() {
         </div>
         <div className="dashboard-section">
           <h3>Información Profesional</h3>
-          <p><strong>Cedula Profesional:</strong> {administrativo.cedulaProfesional}</p>
+          <p><strong>Cédula Profesional:</strong> {administrativo.cedulaProfesional}</p>
           <p><strong>Número de Seguro Social:</strong> {administrativo.numeroSeguroSocial}</p>
         </div>
       </div>

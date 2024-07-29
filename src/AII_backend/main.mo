@@ -3,13 +3,13 @@ import Nat "mo:base/Nat";
 import Iter "mo:base/Iter";
 import Map "mo:map/Map";
 import { thash; phash } "mo:map/Map";
-import Time "mo:base/Time";
-import Buffer "mo:base/Buffer";
+//import Time "mo:base/Time";
+//import Buffer "mo:base/Buffer";
 import Text "mo:base/Text";
 import Set "mo:map/Set";
 import Debug "mo:base/Debug"; // Import Debug for logging
 import Types "./types";
-import Manifiesto "manifiesto";
+
 
 shared ({ caller }) actor class _Plataforma() {
 

@@ -1,7 +1,8 @@
+// Archivo: src/components/DetallesDocente.jsx
 import React, { useState, useEffect } from 'react';
 import { useCanister } from '@connect2ic/react';
 import { useParams } from 'react-router-dom';
-import '../styles/detallesDocenteStyles.css';
+import '../styles/detallesStyles.css';
 
 function DetallesDocente() {
   const [AII_backend] = useCanister('AII_backend');
@@ -34,7 +35,7 @@ function DetallesDocente() {
   }
 
   return (
-    <div className="detalles-docente-dashboard">
+    <div className="detalles-dashboard">
       <h2 className="dashboard-heading">Detalles del Docente</h2>
       <div className="dashboard-sections">
         <div className="dashboard-section">
@@ -70,3 +71,4 @@ function DetallesDocente() {
 }
 
 export default DetallesDocente;
+
