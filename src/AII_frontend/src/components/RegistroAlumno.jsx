@@ -31,7 +31,6 @@ function RegistroAlumno() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Convertir semestre a número
       const formToSend = { ...form, semestre: Number(form.semestre) };
       const response = await AII_backend.registrarseComoAlumno(formToSend);
       setMessage(response);
@@ -52,9 +51,25 @@ function RegistroAlumno() {
           <input type="text" name="tipoSanguineo" value={form.tipoSanguineo} onChange={handleChange} placeholder="Tipo Sanguíneo" required />
           <input type="date" name="fechaNacimiento" value={form.fechaNacimiento} onChange={handleChange} placeholder="Fecha de Nacimiento" required />
           <input type="text" name="curp" value={form.curp} onChange={handleChange} placeholder="CURP" required />
-          <input type="text" name="genero" value={form.genero} onChange={handleChange} placeholder="Género" required />
+          <select name="genero" value={form.genero} onChange={handleChange} required>
+            <option value="">Seleccione Género</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+          </select>
           <input type="text" name="lugarNacimiento" value={form.lugarNacimiento} onChange={handleChange} placeholder="Lugar de Nacimiento" required />
-          <input type="text" name="estadoCivil" value={form.estadoCivil} onChange={handleChange} placeholder="Estado Civil" required />
+          <select name="estadoCivil" value={form.estadoCivil} onChange={handleChange} required>
+            <option value="">Seleccione Estado Civil</option>
+            <option value="soltero/a">Soltero/a</option>
+            <option value="casado por lo civil">Casado por lo civil</option>
+            <option value="divorciado legalmente">Divorciado legalmente</option>
+            <option value="separado legalmente">Separado legalmente</option>
+            <option value="viudo de matrimonio civil">Viudo de matrimonio civil</option>
+            <option value="viudo de matrimonio religioso">Viudo de matrimonio religioso</option>
+            <option value="viudo de matrimonio civil y religioso">Viudo de matrimonio civil y religioso</option>
+            <option value="vive en unión libre">Vive en unión libre</option>
+            <option value="separado de unión libre">Separado de unión libre</option>
+            <option value="viudo de unión libre">Viudo de unión libre</option>
+          </select>
           <input type="email" name="emailPersonal" value={form.emailPersonal} onChange={handleChange} placeholder="Email Personal" required />
         </div>
         <div className="form-group">
@@ -102,7 +117,7 @@ function RegistroAlumno() {
             <label>
               <input type="checkbox" name="pertenenciaEtniaIndigena" checked={form.pertenenciaEtniaIndigena} onChange={handleChange} />
               Pertenencia a Etnia Indígena
-            </label>
+              </label>
             <label>
               <input type="checkbox" name="hablaLenguaIndigena" checked={form.hablaLenguaIndigena} onChange={handleChange} />
               Habla Lengua Indígena
@@ -116,10 +131,17 @@ function RegistroAlumno() {
           <input type="text" name="folioCeneval" value={form.folioCeneval} onChange={handleChange} placeholder="Folio CENEVAL" required />
           <input type="email" name="emailInstitucional" value={form.emailInstitucional} onChange={handleChange} placeholder="Email Institucional" required />
           <input type="text" name="matricula" value={form.matricula} onChange={handleChange} placeholder="Matrícula" required />
-          <input type="text" name="carrera" value={form.carrera} onChange={handleChange} placeholder="Carrera" required />
+          <select name="carrera" value={form.carrera} onChange={handleChange} required>
+            <option value="">Seleccione Carrera</option>
+            <option value="TSU TI Inteligencia Artificial">TSU TI Inteligencia Artificial</option>
+            <option value="TSU TI Desarrollo de Software">TSU TI Desarrollo de Software</option>
+            <option value="TSU Operaciones Comerciales Área Negocios Internacionales">TSU Operaciones Comerciales Área Negocios Internacionales</option>
+            <option value="TSU Procesos Industriales Área Gestión de Calidad">TSU Procesos Industriales Área Gestión de Calidad</option>
+            <option value="TSU Mecatrónica Área Robótica">TSU Mecatrónica Área Robótica</option>
+            <option value="TSU Nanotecnología Área Materiales">TSU Nanotecnología Área Materiales</option>
+          </select>
           <input type="number" name="semestre" value={form.semestre} onChange={handleChange} placeholder="Semestre" required min="1" />
         </div>
-        
         <button type="submit" className="form-button">Registrar</button>
       </form>
       {message && <p className="message">{message}</p>}
@@ -128,3 +150,4 @@ function RegistroAlumno() {
 }
 
 export default RegistroAlumno;
+
