@@ -27,12 +27,10 @@ function NavBar() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <NavDropdown title="Menú" id="basic-nav-dropdown">
-            <NavDropdown.Item as={Link} to="/consultar">Consultar Alumnos</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="/cargar">Cargar Alumnos</NavDropdown.Item>
             <NavDropdown title={<span className="alumnos-dropdown">Alumnos</span>} id="alumnos-nav-dropdown" className="submenu-right">
-              <NavDropdown.Item as={Link} to="/ver-alumnos-ingresantes">Alumnos Ingresantes</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/ver-alumnos-inscritos">Alumnos Inscritos</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/registro-alumno">Registrar Alumno</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/ver-alumnos-inscritos">Ver Alumnos</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/ver-alumnos-ingresantes">Aprobar Alumnos</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title={<span className="administrativos-dropdown">Administrativos</span>} id="administrativos-nav-dropdown" className="submenu-right">
               <NavDropdown.Item as={Link} to="/registro-administrativo">Registrar Administrativo</NavDropdown.Item>
@@ -43,10 +41,6 @@ function NavBar() {
               <NavDropdown.Item as={Link} to="/registro-docente">Registrar Docente</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/ver-docentes">Ver Docentes</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/aprobar-docente">Aprobar Docente</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title={<span className="inscripcion-dropdown">Inscripción</span>} id="inscripcion-nav-dropdown" className="submenu-right">
-              <NavDropdown.Item as={Link} to="/inscripcion/nuevo">Nuevo Ingreso</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/inscripcion/validar">Validar Datos</NavDropdown.Item>
             </NavDropdown>
           </NavDropdown>
         </Nav>

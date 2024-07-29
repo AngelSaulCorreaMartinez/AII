@@ -1,11 +1,7 @@
-// Archivo: src/App.jsx
 import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import ConsultaAlumnos from './components/ConsultaAlumnos';
-import CargaAlumnos from './components/CargaAlumnos';
 import Inicio from './components/Inicio';
 import Login from './components/Login';
-import Inscripcion from './components/Inscripcion';
 import NavBar from './components/NavBar';
 import RegistroAlumno from './components/RegistroAlumno';
 import RegistroAdministrativo from './components/RegistroAdministrativo';
@@ -78,10 +74,6 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/inicio" element={<Inicio />} />
-        <Route path="/consultar" element={<ConsultaAlumnos />} />
-        <Route path="/cargar" element={<CargaAlumnos />} />
-        <Route path="/inscripcion/nuevo" element={<Inscripcion mode="nuevo" />} />
-        <Route path="/inscripcion/validar" element={<Inscripcion mode="validar" />} />
         <Route path="/registro-alumno" element={<RegistroAlumno />} />
         <Route path="/registro-administrativo" element={<RegistroAdministrativo />} />
         <Route path="/registro-docente" element={<RegistroDocente />} />
