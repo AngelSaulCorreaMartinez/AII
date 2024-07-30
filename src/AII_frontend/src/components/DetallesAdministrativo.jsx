@@ -1,4 +1,3 @@
-// Archivo: src/components/DetallesAdministrativo.jsx
 import React, { useState, useEffect } from 'react';
 import { useCanister } from '@connect2ic/react';
 import { useParams } from 'react-router-dom';
@@ -40,13 +39,13 @@ function DetallesAdministrativo() {
       <div className="dashboard-sections">
         <div className="dashboard-section">
           <h3>Información Personal</h3>
-          <p><strong>Principal:</strong> {administrativo.principalID.toString()}</p>
           <p><strong>Nombre:</strong> {administrativo.nombre}</p>
           <p><strong>Apellido Paterno:</strong> {administrativo.apellidoPaterno}</p>
           <p><strong>Apellido Materno:</strong> {administrativo.apellidoMaterno}</p>
           <p><strong>Fecha de Nacimiento:</strong> {administrativo.fechaNacimiento}</p>
           <p><strong>Género:</strong> {administrativo.genero}</p>
           <p><strong>CURP:</strong> {administrativo.curp}</p>
+          <p><strong>Principal:</strong> {administrativo.principalID.toString()}</p>
         </div>
         <div className="dashboard-section">
           <h3>Información de Contacto</h3>

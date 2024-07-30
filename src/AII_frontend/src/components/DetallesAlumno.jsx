@@ -1,4 +1,3 @@
-// Archivo: src/components/DetallesAlumno.jsx
 import React, { useState, useEffect } from 'react';
 import { useCanister } from '@connect2ic/react';
 import { useParams } from 'react-router-dom';
