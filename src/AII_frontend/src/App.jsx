@@ -5,16 +5,17 @@ import Login from './components/Login';
 import NavBar from './components/NavBar';
 import RegistroAlumno from './components/RegistroAlumno';
 import RegistroAdministrativo from './components/RegistroAdministrativo';
-import RegistroDocente from './components/RegistroDocente'; // Importa el nuevo componente
+import RegistroDocente from './components/RegistroDocente';
 import VerAlumnosIngresantes from './components/VerAlumnosIngresantes';
 import VerAlumnosInscritos from './components/VerAlumnosInscritos';
-import VerAdministrativos from './components/VerAdministrativos'; 
-import VerDocentes from './components/VerDocentes'; // Importa el nuevo componente
+import VerAdministrativos from './components/VerAdministrativos';
+import VerDocentes from './components/VerDocentes';
 import AprobarAdministrativo from './components/AprobarAdministrativo';
-import AprobarDocente from './components/AprobarDocente'; // Importa el nuevo componente
-import DetallesAlumno from './components/DetallesAlumno'; // Importa el nuevo componente
-import DetallesAdministrativo from './components/DetallesAdministrativo'; // Importa el nuevo componente
-import DetallesDocente from './components/DetallesDocente'; // Importa el nuevo componente
+import AprobarDocente from './components/AprobarDocente';
+import DetallesAlumno from './components/DetallesAlumno';
+import DetallesAdministrativo from './components/DetallesAdministrativo';
+import DetallesDocente from './components/DetallesDocente';
+import Perfil from './components/Perfil';
 import { Connect2ICProvider, useConnect, useCanister } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
@@ -37,7 +38,7 @@ const client = createClient({
 
 function AppRoutes() {
   const { isConnected, principal } = useConnect();
-  const { setPrincipal } = useUser();
+  const { setPrincipal, setRol } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
   const [AII_backend] = useCanister('AII_backend');
@@ -53,6 +54,29 @@ function AppRoutes() {
           const user = await AII_backend.getMyUser();
           console.log('Respuesta de getMyUser:', user);
           if (user && user.length > 0) {
+            const userRole = user[0]?.rol;
+            if (userRole) {
+              const roleKey = Object.keys(userRole)[0];
+              switch (roleKey) {
+                case 'Admin':
+                  setRol('Administrador');
+                  break;
+                case 'Alumno':
+                  setRol('Alumno');
+                  break;
+                case 'Profesor':
+                  setRol('Profesor');
+                  break;
+                case 'Usuario':
+                  setRol('Usuario');
+                  break;
+                case 'Administrativo':
+                  setRol('Administrativo');
+                  break;
+                default:
+                  setRol('Desconocido');
+              }
+            }
             navigate('/inicio');
           } else {
             console.log('Usuario no registrado. Favor de registrarse.');
@@ -66,7 +90,7 @@ function AppRoutes() {
     };
 
     checkUser();
-  }, [isConnected, principal, setPrincipal, navigate, location, AII_backend]);
+  }, [isConnected, principal, setPrincipal, navigate, location, AII_backend, setRol]);
 
   return (
     <>
@@ -86,6 +110,7 @@ function AppRoutes() {
         <Route path="/detalles-alumno/:principal" element={<DetallesAlumno />} />
         <Route path="/detalles-administrativo/:principal" element={<DetallesAdministrativo />} />
         <Route path="/detalles-docente/:principal" element={<DetallesDocente />} />
+        <Route path="/mi-perfil" element={<Perfil />} />
       </Routes>
     </>
   );
