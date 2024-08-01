@@ -15,7 +15,7 @@ import AprobarDocente from './components/AprobarDocente';
 import DetallesAlumno from './components/DetallesAlumno';
 import DetallesAdministrativo from './components/DetallesAdministrativo';
 import DetallesDocente from './components/DetallesDocente';
-import Perfil from './components/Perfil';
+//import Perfil from './components/Perfil';
 import { Connect2ICProvider, useConnect, useCanister } from '@connect2ic/react';
 import { createClient } from '@connect2ic/core';
 import { InternetIdentity } from '@connect2ic/core/providers/internet-identity';
@@ -110,7 +110,7 @@ function AppRoutes() {
         <Route path="/detalles-alumno/:principal" element={<DetallesAlumno />} />
         <Route path="/detalles-administrativo/:principal" element={<DetallesAdministrativo />} />
         <Route path="/detalles-docente/:principal" element={<DetallesDocente />} />
-        <Route path="/mi-perfil" element={<Perfil />} />
+        
       </Routes>
     </>
   );
